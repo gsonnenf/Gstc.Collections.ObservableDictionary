@@ -1,0 +1,3 @@
+[submodule "Gstc.Collections.ObservableLists"]
+	path = Gstc.Collections.ObservableLists
+	url = https://github.com/gsonnenf/Gstc.Collections.ObservableLists.git
