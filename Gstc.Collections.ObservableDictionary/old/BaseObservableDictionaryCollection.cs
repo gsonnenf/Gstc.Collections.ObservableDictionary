@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace Gstc.Collections.ObservableDictionary.Base {
+﻿namespace Gstc.Collections.ObservableDictionary.Base {
    /* public abstract class BaseObservableDictionaryCollection<TKey, TValue> :
         NotifyDictionaryCollection<TKey, TValue>,
         IObservableDictionaryCollection<TKey, TValue> {

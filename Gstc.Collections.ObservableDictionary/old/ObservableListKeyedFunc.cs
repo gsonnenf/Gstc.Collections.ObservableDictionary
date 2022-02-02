@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Gstc.Collections.ObservableDictionary {
+﻿namespace Gstc.Collections.ObservableDictionary.old {
     /*
     /// <summary>
     /// This class is an implementation of ListKeyed that defines its GetKey method

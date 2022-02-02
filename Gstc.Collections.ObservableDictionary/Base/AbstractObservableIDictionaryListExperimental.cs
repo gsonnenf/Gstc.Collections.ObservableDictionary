@@ -1,6 +1,11 @@
-﻿using Gstc.Collections.ObservableDictionary.NotificationDictionary;
+﻿using System.Collections;
+using Gstc.Collections.ObservableDictionary.NotificationDictionary;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
+using Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary.Gstc.Collections.ObservableDictionary.Notification;
 
 namespace Gstc.Collections.ObservableDictionary.Base {
     /// <summary>
@@ -12,42 +17,52 @@ namespace Gstc.Collections.ObservableDictionary.Base {
     /// <typeparam name="TKey">Key field of Dictionary</typeparam>
     /// <typeparam name="TValue">Value field of Dictionary</typeparam>
     /// <typeparam name="TDictionary"></typeparam>
-    public abstract class AbstractObservableIDictionary<TDictionary, TKey, TValue> :
-        BaseObservableDictionary<TKey, TValue>
+    public abstract class AbstractObservableIDictionaryListExperimental<TDictionary, TKey, TValue> :
+        BaseObservableDictionary<TKey, TValue>,
+        INotifyCollectionChanged
         where TDictionary : IDictionary<TKey, TValue>, new() {
 
         #region Events
         public override event PropertyChangedEventHandler PropertyChanged {
-            add => NotifyDictionary.PropertyChanged += value;
-            remove => NotifyDictionary.PropertyChanged -= value;
+            add => Notify.PropertyChanged += value;
+            remove => Notify.PropertyChanged -= value;
         }
 
         public override event NotifyDictionaryChangedEventHandler DictionaryChanged {
-            add => NotifyDictionary.DictionaryChanged += value;
-            remove => NotifyDictionary.DictionaryChanged -= value;
+            add => Notify.DictionaryChanged += value;
+            remove => Notify.DictionaryChanged -= value;
+        }
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged {
+            add => Notify.CollectionChanged += value;
+            remove => Notify.CollectionChanged -= value;
         }
         #endregion
 
         #region Fields and Properties
-        public NotifyDictionaryComposition<AbstractObservableIDictionary<TDictionary, TKey, TValue>> NotifyDictionary { get; protected set; }
+
+
+        public NotifyDictionaryCollectionComposition<AbstractObservableIDictionaryListExperimental<TDictionary, TKey, TValue>> Notify { get; protected set; }
         public TDictionary Dictionary {
             get => _dictionary;
             set {
                 _dictionary = value;
-                NotifyDictionary.OnPropertyChangedCountAndIndex();
-                NotifyDictionary.OnDictionaryReset();
+
+                Notify.OnPropertyChangedCountAndIndex();
+                Notify.OnDictionaryReset();
+                Notify.OnCollectionChangedReset();
             }
         }
         private TDictionary _dictionary;
         #endregion
 
         #region Constructors
-        protected AbstractObservableIDictionary() {
-            NotifyDictionary = new(this);
+        protected AbstractObservableIDictionaryListExperimental() {
+            Notify = new(this);
             _dictionary = new TDictionary();
         }
-        protected AbstractObservableIDictionary(TDictionary dictionary) {
-            NotifyDictionary = new(this);
+        protected AbstractObservableIDictionaryListExperimental(TDictionary dictionary) {
+            Notify = new(this);
             _dictionary = dictionary;
         }
         #endregion
@@ -65,32 +80,39 @@ namespace Gstc.Collections.ObservableDictionary.Base {
                 }
                 var oldValue = _dictionary[key];
                 var newValue = value;
-                _dictionary[key] = newValue;
-                NotifyDictionary.OnPropertyChangedIndex();
-                NotifyDictionary.OnDictionaryReplace(key, oldValue, newValue);
+                var index = _dictionary.Values.ToList().IndexOf(oldValue);
+              
+                Notify.OnPropertyChangedIndex();
+                Notify.OnDictionaryReplace(key, oldValue, newValue);
+                Notify.OnCollectionChangedReplace(oldValue,newValue, index);
             }
         }
 
         public override void Add(TKey key, TValue value) {
             //CheckReentrancy();
             _dictionary.Add(key, value);
-            NotifyDictionary.OnPropertyChangedCountAndIndex();
-            NotifyDictionary.OnDictionaryAdd(key, value);
+            Notify.OnPropertyChangedCountAndIndex();
+            Notify.OnDictionaryAdd(key, value);
+            var index = _dictionary.Values.ToList().IndexOf(value);
+            Notify.OnCollectionChangedAdd(value,index);
         }
 
         public override void Clear() {
             //CheckReentrancy();
             _dictionary.Clear();
-            NotifyDictionary.OnPropertyChangedCountAndIndex();
-            NotifyDictionary.OnDictionaryReset();
+            Notify.OnPropertyChangedCountAndIndex();
+            Notify.OnDictionaryReset();
+            Notify.OnCollectionChangedReset();
         }
 
         public override bool Remove(TKey key) {
             //CheckReentrancy();
             var removedItem = _dictionary[key];
+            var index = _dictionary.Values.ToList().IndexOf(removedItem);
             if (!_dictionary.Remove(key)) return false;
-            NotifyDictionary.OnPropertyChangedCountAndIndex();
-            NotifyDictionary.OnDictionaryRemove(key, removedItem);
+            Notify.OnPropertyChangedCountAndIndex();
+            Notify.OnDictionaryRemove(key, removedItem);
+            Notify.OnCollectionChangedRemove(removedItem, index);
             return true;
         }
         #endregion

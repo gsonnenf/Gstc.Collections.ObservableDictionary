@@ -1,9 +1,4 @@
-﻿using Gstc.Collections.ObservableLists.Interface;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace Gstc.Collections.ObservableDictionary.Base {
+﻿namespace Gstc.Collections.ObservableDictionary.Base {
     
     //TODO: Rename as ObservableIDictionaryBase and break out into several different things
     /*

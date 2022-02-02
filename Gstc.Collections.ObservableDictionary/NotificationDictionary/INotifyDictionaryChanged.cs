@@ -1,6 +1,8 @@
-﻿namespace Gstc.Collections.ObservableDictionary.Base.Notify {
+﻿using System.ComponentModel;
 
-    public interface INotifyDictionaryChanged {
+namespace Gstc.Collections.ObservableDictionary.NotificationDictionary {
+
+    public interface INotifyDictionaryChanged : INotifyPropertyChanged {
         event NotifyDictionaryChangedEventHandler DictionaryChanged;
     }
 

@@ -1,5 +1,5 @@
-﻿using Gstc.Collections.ObservableDictionary.Base.Notify;
-using Gstc.Collections.ObservableDictionary.Interface;
+﻿using Gstc.Collections.ObservableDictionary.Interface;
+using Gstc.Collections.ObservableDictionary.NotificationDictionary;
 using System;
 using System.Collections;
 using System.Collections.Generic;

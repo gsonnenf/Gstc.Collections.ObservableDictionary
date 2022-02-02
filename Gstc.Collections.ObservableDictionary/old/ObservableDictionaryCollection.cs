@@ -1,8 +1,4 @@
-﻿using Gstc.Collections.ObservableDictionary.Base;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
-namespace Gstc.Collections.ObservableDictionary {
+﻿namespace Gstc.Collections.ObservableDictionary.old {
 
     /*
     /// <summary>

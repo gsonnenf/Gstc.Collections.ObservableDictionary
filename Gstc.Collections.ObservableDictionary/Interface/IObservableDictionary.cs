@@ -1,4 +1,4 @@
-﻿using Gstc.Collections.ObservableDictionary.Base.Notify;
+﻿using Gstc.Collections.ObservableDictionary.NotificationDictionary;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;

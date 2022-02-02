@@ -1,20 +1,20 @@
-﻿namespace Gstc.Collections.ObservableDictionary.Base.Notify {
-    public interface INotifyDictionaryChangedExtended : INotifyDictionaryChanged {
+﻿namespace Gstc.Collections.ObservableDictionary.NotificationDictionary {
+    public interface INotifyDictionaryChangedExtended {
         /// <summary>
         /// Triggers events when an item or items are removed. 
         /// </summary>
-        event NotifyDictionaryChangedEventHandler Added;
+        event NotifyDictionaryChangedEventHandler AddedDictionary;
         /// <summary>
         /// Triggers events when an item or items are removed. 
         /// </summary>
-        event NotifyDictionaryChangedEventHandler Removed;
+        event NotifyDictionaryChangedEventHandler RemovedDictionary;
         /// <summary>
         /// Triggers events when an item has been replaced. 
         /// </summary>
-        event NotifyDictionaryChangedEventHandler Replaced;
+        event NotifyDictionaryChangedEventHandler ReplacedDictionary;
         /// <summary>
         /// Triggers events when an the list has changed substantially such as a Clear(). 
         /// </summary>
-        event NotifyDictionaryChangedEventHandler Reset;
+        event NotifyDictionaryChangedEventHandler ResetDictionary;
     }
 }

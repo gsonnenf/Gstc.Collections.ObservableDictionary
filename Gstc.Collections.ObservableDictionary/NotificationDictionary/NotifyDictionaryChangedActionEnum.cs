@@ -1,4 +1,4 @@
-﻿namespace Gstc.Collections.ObservableDictionary.Base.Notify {
+﻿namespace Gstc.Collections.ObservableDictionary.NotificationDictionary {
     public enum NotifyDictionaryChangedAction {
         Add,
         Remove,
