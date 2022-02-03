@@ -6,5 +6,6 @@ namespace Gstc.Collections.ObservableDictionary.ComponentModel {
         void OnDictionaryAdd(object key, object item);
         void OnDictionaryRemove(object key, object item);
         void OnDictionaryReplace(object key, object oldItem, object newItem);
+        void CheckReentrancy();
     }
 }

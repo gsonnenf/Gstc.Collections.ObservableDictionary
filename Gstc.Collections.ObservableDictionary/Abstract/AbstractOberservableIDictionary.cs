@@ -66,7 +66,7 @@ namespace Gstc.Collections.ObservableDictionary.Abstract {
         public override TValue this[TKey key] {
             get => _dictionary[key];
             set {
-                //CheckReentrancy();
+                Notify.CheckReentrancy();
                 if (!ContainsKey(key)) {
                     Add(key, value);
                     return;

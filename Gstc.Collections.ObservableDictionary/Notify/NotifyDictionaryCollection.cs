@@ -1,8 +1,10 @@
-﻿using Gstc.Collections.ObservableDictionary.ComponentModel;
+﻿using System;
+using Gstc.Collections.ObservableDictionary.ComponentModel;
 using Gstc.Collections.ObservableLists.ComponentModel;
 using Gstc.Collections.ObservableLists.Notify;
 using System.Collections;
 using System.Collections.Specialized;
+using Gstc.Collections.ObservableDictionary.Notify;
 
 namespace Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary {
 
@@ -120,6 +122,27 @@ namespace Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary
             }
             #endregion
 
+            #region .NET Monitor
+            public SimpleMonitor ReentrancyMonitor => _monitor ??= new SimpleMonitor(this);
+            private SimpleMonitor _monitor; // Lazily allocated only when a subclass calls BlockReentrancy() or during serialization. 
+            private int _blockReentrancyCount;
+
+            public void CheckReentrancy() {
+                if (_blockReentrancyCount <= 0) return;
+                if (DictionaryChanged?.GetInvocationList().Length > 1)
+                    throw new InvalidOperationException("ObservableCollectionReentrancyNotAllowed");
+            }
+            protected IDisposable BlockReentrancy() {
+                _blockReentrancyCount++;
+                return ReentrancyMonitor;
+            }
+
+            public class SimpleMonitor : IDisposable {
+                private readonly NotifyDictionaryCollection _notify;
+                public SimpleMonitor(NotifyDictionaryCollection notify) => _notify = notify;
+                public void Dispose() => _notify._blockReentrancyCount--;
+            }
+            #endregion
 
         }
     }
