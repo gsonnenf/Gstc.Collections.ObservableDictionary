@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Specialized;
-using Gstc.Collections.ObservableDictionary.NotificationDictionary;
+﻿using Gstc.Collections.ObservableDictionary.NotificationDictionary;
 using Gstc.Collections.ObservableLists.Base.Notify;
+using System.Collections;
+using System.Collections.Specialized;
 
 namespace Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary {
 
@@ -12,7 +12,7 @@ namespace Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary
             INotifyDictionaryChanged,
             INotifyDictionaryChangedExtended,
             INotifyListChanged,
-            INotifyCollectionChanged{
+            INotifyCollectionChanged {
 
             #region Fields and Properties
 
@@ -116,7 +116,7 @@ namespace Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary
             }
             #endregion
 
-           
+
         }
     }
 

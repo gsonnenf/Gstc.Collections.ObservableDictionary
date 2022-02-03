@@ -1,11 +1,9 @@
-﻿using System.Collections;
+﻿using Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary.Gstc.Collections.ObservableDictionary.Notification;
 using Gstc.Collections.ObservableDictionary.NotificationDictionary;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary.Gstc.Collections.ObservableDictionary.Notification;
 
 namespace Gstc.Collections.ObservableDictionary.Base {
     /// <summary>
@@ -81,10 +79,10 @@ namespace Gstc.Collections.ObservableDictionary.Base {
                 var oldValue = _dictionary[key];
                 var newValue = value;
                 var index = _dictionary.Values.ToList().IndexOf(oldValue);
-              
+
                 Notify.OnPropertyChangedIndex();
                 Notify.OnDictionaryReplace(key, oldValue, newValue);
-                Notify.OnCollectionChangedReplace(oldValue,newValue, index);
+                Notify.OnCollectionChangedReplace(oldValue, newValue, index);
             }
         }
 
@@ -94,7 +92,7 @@ namespace Gstc.Collections.ObservableDictionary.Base {
             Notify.OnPropertyChangedCountAndIndex();
             Notify.OnDictionaryAdd(key, value);
             var index = _dictionary.Values.ToList().IndexOf(value);
-            Notify.OnCollectionChangedAdd(value,index);
+            Notify.OnCollectionChangedAdd(value, index);
         }
 
         public override void Clear() {

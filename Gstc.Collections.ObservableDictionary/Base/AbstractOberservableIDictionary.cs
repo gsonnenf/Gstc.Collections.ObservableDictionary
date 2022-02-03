@@ -26,6 +26,9 @@ namespace Gstc.Collections.ObservableDictionary.Base {
             add => NotifyDictionary.DictionaryChanged += value;
             remove => NotifyDictionary.DictionaryChanged -= value;
         }
+
+        //TODO: Make sure this is ok.
+        protected virtual void OnPropertyChanged(string propertyName) => NotifyDictionary.OnPropertyChanged(propertyName);
         #endregion
 
         #region Fields and Properties

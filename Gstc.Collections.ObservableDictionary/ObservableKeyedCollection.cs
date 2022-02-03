@@ -1,10 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using Gstc.Collections.ObservableDictionary.Interface;
-using Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary.Gstc.Collections.ObservableDictionary.Notification;
+﻿using Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary.Gstc.Collections.ObservableDictionary.Notification;
 using Gstc.Collections.ObservableDictionary.NotificationDictionary;
 using Gstc.Collections.ObservableLists.Interface;
+using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace Gstc.Collections.ObservableDictionary {
     /// <summary>
@@ -12,11 +12,11 @@ namespace Gstc.Collections.ObservableDictionary {
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TItem"></typeparam>
-    public abstract class ObservableKeyedCollection<TKey, TItem> : 
+    public abstract class ObservableKeyedCollection<TKey, TItem> :
         KeyedCollection<TKey, TItem>,
         IObservableCollection<TItem>,
         INotifyDictionaryChanged {
-        
+
         #region Events
         public event PropertyChangedEventHandler PropertyChanged {
             add => Notify.PropertyChanged += value;
@@ -32,10 +32,13 @@ namespace Gstc.Collections.ObservableDictionary {
             add => Notify.DictionaryChanged += value;
             remove => Notify.DictionaryChanged -= value;
         }
+        //TODO: Make sure this is ok.
+        protected virtual void OnPropertyChanged(string propertyName) => Notify.OnPropertyChanged(propertyName);
+
         #endregion
 
         #region Fields and Properties
-         public NotifyDictionaryCollectionComposition<ObservableKeyedCollection<TKey, TItem>> Notify { get; protected set; }
+        public NotifyDictionaryCollectionComposition<ObservableKeyedCollection<TKey, TItem>> Notify { get; protected set; }
 
         #endregion
 
@@ -45,7 +48,35 @@ namespace Gstc.Collections.ObservableDictionary {
         }
         #endregion
 
+        #region Methods
+        public new TItem this[TKey i] {
+            get => base[i];
+            set => AddOrReplace(value);
+        }
+
+        public void AddOrReplace(TItem item) {
+            if (TryGetValue(GetKeyForItem(item), out var oldItem)) Remove(oldItem);
+            Add(item);
+        }
+
+        //TODO: Polyfill for .Net Framework 4.8, remove if upgrading to .Net Standard 2.1+ or .Net 5+
+        public bool TryGetValue(TKey key, out TItem item) {
+            if (key == null) throw new ArgumentNullException(nameof(key));
+            if (Dictionary != null) return Dictionary.TryGetValue(key, out item!);
+
+            foreach (TItem itemInItems in Items) {
+                var keyInItems = GetKeyForItem(itemInItems);
+                if (keyInItems == null || Comparer.Equals(key, keyInItems)) continue;
+                item = itemInItems;
+                return true;
+            }
+            item = default;
+            return false;
+        }
+        #endregion
+
         #region Override Methods
+
         protected override void ClearItems() {
             //TODO: CheckReentrancy();
             base.ClearItems();
@@ -57,7 +88,7 @@ namespace Gstc.Collections.ObservableDictionary {
             base.InsertItem(index, item);
             Notify.OnCollectionChangedAdd(item, index);
             Notify.OnPropertyChangedCountAndIndex();
-            Notify.OnDictionaryAdd(GetKeyForItem(item),item); //TODO: Decide if we need checking to ensure a non-null key.
+            Notify.OnDictionaryAdd(GetKeyForItem(item), item); //TODO: Decide if we need checking to ensure a non-null key.
         }
 
         protected override void RemoveItem(int index) {
@@ -74,8 +105,9 @@ namespace Gstc.Collections.ObservableDictionary {
             base.SetItem(index, item);
             Notify.OnCollectionChangedReplace(oldItem, item, index);
             Notify.OnPropertyChangedIndex();
-            Notify.OnDictionaryReplace(GetKeyForItem(item),oldItem,item);
+            Notify.OnDictionaryReplace(GetKeyForItem(item), oldItem, item);
         }
         #endregion
+
     }
 }

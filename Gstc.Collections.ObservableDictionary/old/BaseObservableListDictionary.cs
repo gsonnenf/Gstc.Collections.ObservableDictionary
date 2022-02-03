@@ -1,5 +1,5 @@
-﻿namespace Gstc.Collections.ObservableDictionary.Base {
-    
+﻿namespace Gstc.Collections.ObservableDictionary.old {
+
     //TODO: Rename as ObservableIDictionaryBase and break out into several different things
     /*
     public abstract class BaseObservableListDictionary<TKey, TValue> :
