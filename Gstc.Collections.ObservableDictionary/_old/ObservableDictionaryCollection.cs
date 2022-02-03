@@ -1,4 +1,4 @@
-﻿namespace Gstc.Collections.ObservableDictionary.old {
+﻿namespace Gstc.Collections.ObservableDictionary._old {
 
     /*
     /// <summary>

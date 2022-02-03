@@ -1,4 +1,4 @@
-﻿using Gstc.Collections.ObservableDictionary.NotificationDictionary;
+﻿using Gstc.Collections.ObservableDictionary.ComponentModel;
 using Gstc.Collections.ObservableLists.Test.MockObjects;
 using NUnit.Framework;
 using System.Collections;

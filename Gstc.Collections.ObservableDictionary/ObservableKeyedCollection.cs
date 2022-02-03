@@ -1,5 +1,5 @@
-﻿using Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary.Gstc.Collections.ObservableDictionary.Notification;
-using Gstc.Collections.ObservableDictionary.NotificationDictionary;
+﻿using Gstc.Collections.ObservableDictionary.ComponentModel;
+using Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary.Gstc.Collections.ObservableDictionary.Notification;
 using Gstc.Collections.ObservableLists.Interface;
 using System;
 using System.Collections.ObjectModel;
@@ -38,13 +38,13 @@ namespace Gstc.Collections.ObservableDictionary {
         #endregion
 
         #region Fields and Properties
-        public NotifyDictionaryCollectionComposition<ObservableKeyedCollection<TKey, TItem>> Notify { get; protected set; }
+        public NotifyDictionaryCollection Notify { get; protected set; }
 
         #endregion
 
         #region Constructors
         protected ObservableKeyedCollection() {
-            Notify = new NotifyDictionaryCollectionComposition<ObservableKeyedCollection<TKey, TItem>>(this);
+            Notify = new NotifyDictionaryCollection(this);
         }
         #endregion
 
@@ -73,6 +73,7 @@ namespace Gstc.Collections.ObservableDictionary {
             item = default;
             return false;
         }
+
         #endregion
 
         #region Override Methods

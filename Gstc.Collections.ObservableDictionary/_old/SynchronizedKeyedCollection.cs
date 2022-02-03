@@ -1,4 +1,4 @@
-﻿namespace Gstc.Collections.ObservableDictionary.old {
+﻿namespace Gstc.Collections.ObservableDictionary._old {
     /*
     public abstract class KeyedICollection<TKey, TItem, TCollection> : ICollection<TItem>
     where TCollection : ICollection<TItem> {

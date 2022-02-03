@@ -1,4 +1,4 @@
-﻿namespace Gstc.Collections.ObservableDictionary.NotificationDictionary {
+﻿namespace Gstc.Collections.ObservableDictionary.ComponentModel {
     public interface INotifyDictionaryChangedExtended {
         /// <summary>
         /// Triggers events when an item or items are removed. 

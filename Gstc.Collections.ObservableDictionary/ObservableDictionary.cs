@@ -1,4 +1,5 @@
-﻿using Gstc.Collections.ObservableDictionary.Base;
+﻿using Gstc.Collections.ObservableDictionary.Abstract;
+using Gstc.Collections.ObservableDictionary.Notify;
 using System.Collections.Generic;
 
 namespace Gstc.Collections.ObservableDictionary {
@@ -12,5 +13,5 @@ namespace Gstc.Collections.ObservableDictionary {
     /// <typeparam name="TKey">Key field of Dictionary</typeparam>
     /// <typeparam name="TValue">Value field of Dictionary</typeparam>
     public class ObservableDictionary<TKey, TValue> :
-        AbstractObservableIDictionary<Dictionary<TKey, TValue>, TKey, TValue> { }
+        AbstractObservableIDictionary<TKey, TValue, Dictionary<TKey, TValue>, NotifyDictionary> { }
 }

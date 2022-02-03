@@ -1,17 +1,11 @@
-﻿using Gstc.Collections.ObservableDictionary.Interface;
-using Gstc.Collections.ObservableDictionary.NotificationDictionary;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 
-namespace Gstc.Collections.ObservableDictionary.Base {
-    public abstract class BaseObservableDictionary<TKey, TValue> : IObservableDictionary<TKey, TValue> {
-
-        #region Events
-        public abstract event PropertyChangedEventHandler PropertyChanged;
-        public abstract event NotifyDictionaryChangedEventHandler DictionaryChanged;
-        #endregion
+namespace Gstc.Collections.ObservableDictionary.Abstract {
+    public abstract class AbstractDictionaryAdapter<TKey, TValue> :
+        IDictionary,
+        IDictionary<TKey, TValue> {
 
         #region Abstract Methods
         protected abstract IDictionary<TKey, TValue> InternalDictionary { get; }

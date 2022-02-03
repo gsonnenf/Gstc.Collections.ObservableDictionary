@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using Gstc.Collections.ObservableDictionary.NotificationDictionary;
+using Gstc.Collections.ObservableDictionary.ComponentModel;
 using Gstc.Collections.ObservableDictionary.UnitTest.Tools;
 using Moq;
 using NUnit.Framework;

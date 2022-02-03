@@ -1,4 +1,4 @@
-﻿namespace Gstc.Collections.ObservableDictionary.old {
+﻿namespace Gstc.Collections.ObservableDictionary._old {
 
     //TODO: Rename as ObservableIDictionaryBase and break out into several different things
     /*

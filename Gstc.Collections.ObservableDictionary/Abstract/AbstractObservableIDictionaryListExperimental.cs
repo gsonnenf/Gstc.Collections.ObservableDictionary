@@ -1,11 +1,11 @@
-﻿using Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary.Gstc.Collections.ObservableDictionary.Notification;
-using Gstc.Collections.ObservableDictionary.NotificationDictionary;
+﻿using Gstc.Collections.ObservableDictionary.ComponentModel;
+using Gstc.Collections.ObservableDictionary.NotificationCollectionDictionary.Gstc.Collections.ObservableDictionary.Notification;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
-namespace Gstc.Collections.ObservableDictionary.Base {
+namespace Gstc.Collections.ObservableDictionary.Abstract {
     /// <summary>
     /// Observable dictionary can serve as a stand alone dictionary, or serve as an observable wrapper for a pre-existing dictionary.
     /// ObservableDictionary implements INotifyPropertyChanged and INotifyDictionaryChanged. It does NOT implement ICollectionChanged.
@@ -16,17 +16,17 @@ namespace Gstc.Collections.ObservableDictionary.Base {
     /// <typeparam name="TValue">Value field of Dictionary</typeparam>
     /// <typeparam name="TDictionary"></typeparam>
     public abstract class AbstractObservableIDictionaryListExperimental<TDictionary, TKey, TValue> :
-        BaseObservableDictionary<TKey, TValue>,
+        AbstractDictionaryAdapter<TKey, TValue>,
         INotifyCollectionChanged
         where TDictionary : IDictionary<TKey, TValue>, new() {
 
         #region Events
-        public override event PropertyChangedEventHandler PropertyChanged {
+        public event PropertyChangedEventHandler PropertyChanged {
             add => Notify.PropertyChanged += value;
             remove => Notify.PropertyChanged -= value;
         }
 
-        public override event NotifyDictionaryChangedEventHandler DictionaryChanged {
+        public event NotifyDictionaryChangedEventHandler DictionaryChanged {
             add => Notify.DictionaryChanged += value;
             remove => Notify.DictionaryChanged -= value;
         }
@@ -40,7 +40,7 @@ namespace Gstc.Collections.ObservableDictionary.Base {
         #region Fields and Properties
 
 
-        public NotifyDictionaryCollectionComposition<AbstractObservableIDictionaryListExperimental<TDictionary, TKey, TValue>> Notify { get; protected set; }
+        public NotifyDictionaryCollection Notify { get; protected set; }
         public TDictionary Dictionary {
             get => _dictionary;
             set {

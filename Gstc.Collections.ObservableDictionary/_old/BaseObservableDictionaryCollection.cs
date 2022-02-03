@@ -1,4 +1,4 @@
-﻿namespace Gstc.Collections.ObservableDictionary.old {
+﻿namespace Gstc.Collections.ObservableDictionary._old {
     /* public abstract class BaseObservableDictionaryCollection<TKey, TValue> :
          NotifyDictionaryCollection<TKey, TValue>,
          IObservableDictionaryCollection<TKey, TValue> {
