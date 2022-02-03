@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoFixture;
+﻿using AutoFixture;
 using Gstc.Collections.ObservableDictionary.NotificationDictionary;
 using Gstc.Collections.ObservableDictionary.UnitTest.Tools;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace Gstc.Collections.ObservableDictionary.UnitTest {
     [TestFixture]

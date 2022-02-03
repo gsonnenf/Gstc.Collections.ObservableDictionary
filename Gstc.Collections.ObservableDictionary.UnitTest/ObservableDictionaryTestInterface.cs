@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using AutoFixture;
+﻿using AutoFixture;
 using Gstc.Collections.ObservableDictionary.UnitTest.Tools;
 using Gstc.Collections.ObservableLists.Test.MockObjects;
 using Gstc.Collections.ObservableLists.Test.Tools;
 using NUnit.Framework;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Gstc.Collections.ObservableDictionary.UnitTest {
     [TestFixture]
@@ -77,13 +77,11 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest {
                 dictionary.Add(_fixture.Create<string>(), _fixture.Create<TestItem>());
                 dictionary.Add(_fixture.Create<string>(), _fixture.Create<TestItem>());
                 dictionary.Add(_fixture.Create<string>(), _fixture.Create<TestItem>());
-            } 
-            else if (obj is ICollection<TestItem> collectionGeneric) {
-                collectionGeneric.Add( _fixture.Create<TestItem>());
-                collectionGeneric.Add( _fixture.Create<TestItem>());
-                collectionGeneric.Add( _fixture.Create<TestItem>());
-            }
-            else {
+            } else if (obj is ICollection<TestItem> collectionGeneric) {
+                collectionGeneric.Add(_fixture.Create<TestItem>());
+                collectionGeneric.Add(_fixture.Create<TestItem>());
+                collectionGeneric.Add(_fixture.Create<TestItem>());
+            } else {
                 Console.WriteLine("Could not add test elements collection for ICollection test");
                 return;
             }
@@ -91,7 +89,7 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest {
             if (obj is ICollection collection) _testCasesCollection.CollectionTest(collection);
             else Console.WriteLine("Collection is not a " + nameof(ICollection));
         }
-     
+
         [Description("Down casts to IList<> and tests for observable triggers with that interface.")]
         [TestCaseSource(nameof(StaticDataSource))]
         [Test]

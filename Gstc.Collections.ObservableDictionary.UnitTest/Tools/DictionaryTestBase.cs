@@ -4,7 +4,7 @@ using Gstc.Collections.ObservableLists.Test.Tools;
 using NUnit.Framework;
 
 namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
-    public class DictionaryTestBase<TKey,TItem> : CollectionTestBase<TItem> {
+    public class DictionaryTestBase<TKey, TItem> : CollectionTestBase<TItem> {
 
         protected TKey Key1 { get; set; }
         protected TKey Key2 { get; set; }

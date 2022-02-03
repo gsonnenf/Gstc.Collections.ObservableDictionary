@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Gstc.Collections.ObservableDictionary.NotificationDictionary;
+﻿using Gstc.Collections.ObservableDictionary.NotificationDictionary;
 using Gstc.Collections.ObservableLists.Test.MockObjects;
 using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
-    public class InterfaceTestCaseDictionary : DictionaryTestBase<string,TestItem> {
+    public class InterfaceTestCaseDictionary : DictionaryTestBase<string, TestItem> {
 
         public void DictionaryTest(IDictionary dictionary) {
 
@@ -26,7 +26,7 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
             //Add Test
             dictionary.Add(Key1, Item1);
             Assert.AreEqual(1, dictionary.Count);
-            MockEvent.AssertMockNotifiersDictionary(2,1);
+            MockEvent.AssertMockNotifiersDictionary(2, 1);
 
             //Contains test
             Assert.IsTrue(dictionary.Contains(Key1));
@@ -35,23 +35,23 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
             //Remove Test
             dictionary.Remove(Key1);
             Assert.AreEqual(0, dictionary.Count);
-            MockEvent.AssertMockNotifiersDictionary(2,1);
+            MockEvent.AssertMockNotifiersDictionary(2, 1);
 
             //index[] test
             dictionary[DefaultKey] = DefaultValue;
             Assert.AreEqual(1, dictionary.Count);
-            MockEvent.AssertMockNotifiersDictionary(2,1);
+            MockEvent.AssertMockNotifiersDictionary(2, 1);
 
             //Special case: ObservableListKeyed must have key match mapped property in object.
             //if (dictionary is ObservableListKeyed<string, TestItem>) UpdateValue.Id = DefaultKey;
             dictionary[DefaultKey] = UpdateValue;
             Assert.AreEqual(1, dictionary.Count);
-            MockEvent.AssertMockNotifiersDictionary(1,1);
+            MockEvent.AssertMockNotifiersDictionary(1, 1);
 
             //Clear Test
             dictionary.Clear();
             Assert.AreEqual(0, dictionary.Count);
-            MockEvent.AssertMockNotifiersDictionary(2,1);
+            MockEvent.AssertMockNotifiersDictionary(2, 1);
 
             //Keys/Value Test
 
@@ -90,7 +90,7 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
             enumerator.MoveNext();
             Assert.IsTrue(dictionary.Contains(enumerator.Key));
             Assert.IsTrue(dictionary[enumerator.Key] == enumerator.Value);
- 
+
             enumerator.MoveNext();
             Assert.IsTrue(dictionary.Contains(enumerator.Key));
             Assert.IsTrue(dictionary[enumerator.Key] == enumerator.Value);
@@ -113,7 +113,7 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
             //Add Test
             dictionary.Add(Key1, Item1);
             Assert.AreEqual(1, dictionary.Count);
-            MockEvent.AssertMockNotifiersDictionary(2,1);
+            MockEvent.AssertMockNotifiersDictionary(2, 1);
 
             //Contains test
             Assert.IsTrue(dictionary.ContainsKey(Key1));
@@ -122,24 +122,24 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
             //Remove Test
             dictionary.Remove(Key1);
             Assert.AreEqual(0, dictionary.Count);
-            MockEvent.AssertMockNotifiersDictionary(2,1);
+            MockEvent.AssertMockNotifiersDictionary(2, 1);
 
             //index[] test
             dictionary[DefaultKey] = DefaultValue;
             Assert.AreEqual(1, dictionary.Count);
-            MockEvent.AssertMockNotifiersDictionary(2,1);
+            MockEvent.AssertMockNotifiersDictionary(2, 1);
 
             //Special case: ObservableListKeyed must have key match mapped property in object.
             //if (dictionary is ObservableListKeyed<string, TestItem>) UpdateValue.Id = DefaultKey;
 
             dictionary[DefaultKey] = UpdateValue;
             Assert.AreEqual(1, dictionary.Count);
-            MockEvent.AssertMockNotifiersDictionary(1,1);
+            MockEvent.AssertMockNotifiersDictionary(1, 1);
 
             //Clear Test
             dictionary.Clear();
             Assert.AreEqual(0, dictionary.Count);
-            MockEvent.AssertMockNotifiersDictionary(2,1);
+            MockEvent.AssertMockNotifiersDictionary(2, 1);
 
             //Keys/Value Test
             //if (dictionary is ObservableSortedList<string, TestItem>) { //Special case for a sorted list
@@ -172,7 +172,7 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
 
             //TryGetValue test
             Assert.IsTrue(dictionary.TryGetValue(Key1, out var itemA));
-            Assert.AreSame(Item1,itemA);
+            Assert.AreSame(Item1, itemA);
             Assert.IsFalse(dictionary.TryGetValue(Key3, out var itemB));
             Assert.AreSame(null, itemB);
 
@@ -182,9 +182,9 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
             //KVP Enumerator Test
             var enumerator = dictionary.GetEnumerator();
             enumerator.MoveNext();
-            Assert.IsTrue( Key1 == enumerator.Current.Key || Key2 == enumerator.Current.Key);
-            Assert.IsTrue( Item1 == enumerator.Current.Value || Item2 == enumerator.Current.Value);
-            
+            Assert.IsTrue(Key1 == enumerator.Current.Key || Key2 == enumerator.Current.Key);
+            Assert.IsTrue(Item1 == enumerator.Current.Value || Item2 == enumerator.Current.Value);
+
             enumerator.MoveNext();
             Assert.IsTrue(Key1 == enumerator.Current.Key || Key2 == enumerator.Current.Key);
             Assert.IsTrue(Item1 == enumerator.Current.Value || Item2 == enumerator.Current.Value);
@@ -225,22 +225,22 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
 
             collection.Add(kvp1);
             Assert.AreEqual(1, collection.Count);
-            MockEvent.AssertMockNotifiersDictionary(2,1);
+            MockEvent.AssertMockNotifiersDictionary(2, 1);
 
             //Remove Test
             collection.Remove(kvp1);
             Assert.AreEqual(0, collection.Count);
-            MockEvent.AssertMockNotifiersDictionary(2,1);
+            MockEvent.AssertMockNotifiersDictionary(2, 1);
 
             //ClearTest
             collection.Add(kvp1);
             collection.Add(kvp2);
             Assert.AreEqual(2, collection.Count);
-            MockEvent.AssertMockNotifiersDictionary(4,2);
+            MockEvent.AssertMockNotifiersDictionary(4, 2);
 
             collection.Clear();
             Assert.AreEqual(0, collection.Count);
-            MockEvent.AssertMockNotifiersDictionary(2,1);
+            MockEvent.AssertMockNotifiersDictionary(2, 1);
 
             //Contains Test
             collection.Add(kvp1);
@@ -259,13 +259,13 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
 
             IEnumerator enumerator = collection.GetEnumerator();
             Assert.IsNotNull(enumerator);
-            
+
             enumerator.MoveNext();
 
             var dictionary = collection as IDictionary<string, TestItem>;
-            var kvp = ((KeyValuePair<string, TestItem>) enumerator.Current);
-            Assert.IsTrue( dictionary.ContainsKey( kvp.Key));
-            Assert.IsTrue( dictionary[kvp.Key] == kvp.Value);
+            var kvp = ((KeyValuePair<string, TestItem>)enumerator.Current);
+            Assert.IsTrue(dictionary.ContainsKey(kvp.Key));
+            Assert.IsTrue(dictionary[kvp.Key] == kvp.Value);
 
 
             IEnumerator<KeyValuePair<string, TestItem>> enumeratorGeneric = collection.GetEnumerator();
