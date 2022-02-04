@@ -1,6 +1,6 @@
-﻿using System;
-using Gstc.Collections.ObservableDictionary.ComponentModel;
+﻿using Gstc.Collections.ObservableDictionary.ComponentModel;
 using Gstc.Collections.ObservableLists.Notify;
+using System;
 
 namespace Gstc.Collections.ObservableDictionary.Notify {
     public class NotifyDictionary :
