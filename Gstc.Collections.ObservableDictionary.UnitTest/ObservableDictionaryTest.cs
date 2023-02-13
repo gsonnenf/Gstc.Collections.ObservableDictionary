@@ -1,15 +1,10 @@
-﻿using AutoFixture;
-using Gstc.Collections.ObservableDictionary.ComponentModel;
-using Gstc.Collections.ObservableDictionary.UnitTest.Tools;
-using Moq;
+﻿using Gstc.Collections.ObservableDictionary.UnitTest.Tools;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace Gstc.Collections.ObservableDictionary.UnitTest {
     [TestFixture]
     public class ObservableDictionaryTest : DictionaryTestBase<object, object> {
-
+        /*
         private static object[] DefaultStaticKey { get; } = {
             Fixture.Create<object>(),
             Fixture.Create<string>()
@@ -145,6 +140,6 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest {
         }
 
         #endregion
-
+        */
     }
 }

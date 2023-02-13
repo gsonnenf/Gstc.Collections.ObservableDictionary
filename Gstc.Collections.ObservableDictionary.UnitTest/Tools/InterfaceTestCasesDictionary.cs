@@ -1,11 +1,5 @@
-﻿using Gstc.Collections.ObservableDictionary.ComponentModel;
-using Gstc.Collections.ObservableLists.Test.MockObjects;
-using NUnit.Framework;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
+﻿namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
+    /*
     public class InterfaceTestCaseDictionary : DictionaryTestBase<string, TestItem> {
 
         public void DictionaryTest(IDictionary dictionary) {
@@ -283,5 +277,5 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
             Assert.IsFalse(array.Contains(new KeyValuePair<string, TestItem>()));
         }
     }
-
+    */
 }

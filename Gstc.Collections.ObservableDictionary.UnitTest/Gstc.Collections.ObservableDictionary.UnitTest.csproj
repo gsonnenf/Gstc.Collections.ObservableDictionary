@@ -22,8 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gstc.Collections.ObservableDictionary\Gstc.Collections.ObservableDictionary.csproj" />
-    <ProjectReference Include="..\Gstc.Collections.ObservableLists\Gstc.Collections.ObservableLists.Test\Gstc.Collections.ObservableLists.Test.csproj" />
-    <ProjectReference Include="..\Gstc.Collections.ObservableLists\Gstc.Collections.ObservableLists\Gstc.Collections.ObservableLists.csproj" />
   </ItemGroup>
 
 </Project>

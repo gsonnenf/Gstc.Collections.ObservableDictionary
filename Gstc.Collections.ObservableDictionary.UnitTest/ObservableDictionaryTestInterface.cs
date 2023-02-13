@@ -1,16 +1,10 @@
-﻿using AutoFixture;
-using Gstc.Collections.ObservableDictionary.UnitTest.Tools;
-using Gstc.Collections.ObservableLists.Test.MockObjects;
-using Gstc.Collections.ObservableLists.Test.Tools;
-using NUnit.Framework;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using NUnit.Framework;
 
 namespace Gstc.Collections.ObservableDictionary.UnitTest {
+
     [TestFixture]
     public class ObservableDictionaryTestInterface {
-
+        /*
         #region Fields and Setup
         public static object[] StaticDataSource => new object[] {
             new ObservableDictionary<string, TestItem>(),
@@ -106,5 +100,6 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest {
             else Console.WriteLine("Collection is not a " + nameof(IList));
         }
         #endregion
+    */
     }
 }

@@ -1,10 +1,5 @@
-﻿using AutoFixture;
-using Gstc.Collections.ObservableDictionary.ComponentModel;
-using Gstc.Collections.ObservableLists.Test.Tools;
-using NUnit.Framework;
-
-namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
-    public class DictionaryTestBase<TKey, TItem> : CollectionTestBase<TItem> {
+﻿namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
+    public class DictionaryTestBase<TKey, TItem> {  /*: CollectionTestBase<TItem> {
 
         protected TKey Key1 { get; set; }
         protected TKey Key2 { get; set; }
@@ -26,7 +21,7 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
 
 
         #region Test_DictionaryInterface Event Arg Tests
-        protected void AssertDictionaryEventReset(object sender, NotifyDictionaryChangedEventArgs args) {
+        protected void AssertDictionaryEventReset(object sender, NotifyDictionaryChangedEventArgsOLD args) {
             Assert.That(args.Action, Is.EqualTo(NotifyDictionaryChangedAction.Reset));
             Assert.That(args.OldItems, Is.Null);
             Assert.That(args.NewItems, Is.Null);
@@ -54,5 +49,6 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest.Tools {
             };
         }
         #endregion
+        */
     }
 }
