@@ -166,20 +166,26 @@ namespace Gstc.Collections.ObservableDictionary {
         }
         #endregion
 
-        #region Observable Views
-        public IObservableEnumerable<KeyValuePair<TKey, TValue>> ObservableEnumerableKvp => _observableEnumerableKvp ??= new ObservableEnumerableKvp<TKey, TValue>(this);
-        private IObservableEnumerable<KeyValuePair<TKey, TValue>> _observableEnumerableKvp;
+        #region Enumerable Views
+        public ObservableEnumerableKvp<TKey, TValue> ObservableEnumerableKvp => _observableEnumerableKvp ??= new ObservableEnumerableKvp<TKey, TValue>(this);
+        private ObservableEnumerableKvp<TKey, TValue> _observableEnumerableKvp;
 
-        public IObservableEnumerable<TValue> ObservableEnumerableValue => _observableEnumerableValue ??= new ObservableEnumerableValue<TKey, TValue>(this);
-        private IObservableEnumerable<TValue> _observableEnumerableValue;
+        public ObservableEnumerableValue<TKey, TValue> ObservableEnumerableValue => _observableEnumerableValue ??= new ObservableEnumerableValue<TKey, TValue>(this);
+        private ObservableEnumerableValue<TKey, TValue> _observableEnumerableValue;
 
-        public IObservableEnumerable<TKey> ObservableEnumerableKey => _observableEnumerableKey ??= new ObservableEnumerableKey<TKey, TValue>(this);
-        private IObservableEnumerable<TKey> _observableEnumerableKey;
+        public ObservableEnumerableKey<TKey, TValue> ObservableEnumerableKey => _observableEnumerableKey ??= new ObservableEnumerableKey<TKey, TValue>(this);
+        private ObservableEnumerableKey<TKey, TValue> _observableEnumerableKey;
         #endregion
 
-        #region ObservableListView
-        public IObservableListView<TKey, TValue> ObservableListView => _observableListView ??= new AbstractObservableListView<TKey, TValue>(this);
-        private IObservableListView<TKey, TValue> _observableListView;
+        #region List View
+        public ObservableListViewKey<TKey, TValue> ObservableListViewKey => _observableListViewKey ??= new ObservableListViewKey<TKey, TValue>(this);
+        private ObservableListViewKey<TKey, TValue> _observableListViewKey;
+
+        public ObservableListViewValue<TKey, TValue> ObservableListViewValue => _observableListViewValue ??= new ObservableListViewValue<TKey, TValue>(this);
+        private ObservableListViewValue<TKey, TValue> _observableListViewValue;
+
+        public ObservableListViewKvp<TKey, TValue> ObservableListViewKvp => _observableListViewKvp ??= new ObservableListViewKvp<TKey, TValue>(this);
+        private ObservableListViewKvp<TKey, TValue> _observableListViewKvp;
         #endregion
 
         #region Property Notify Methods

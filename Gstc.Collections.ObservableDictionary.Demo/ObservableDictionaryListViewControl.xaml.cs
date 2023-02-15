@@ -21,7 +21,7 @@ namespace Gstc.Collections.ObservableDictionary.Demo {
         }
 
         public IObservableDictionary<string, Customer> ObvDictionary => CustomerVm.ObvDictionaryCustomers;
-        public IObservableListView<string, Customer> ObvListView => CustomerVm.ObvListViewCustomer;
+        public ObservableListViewKey<string, Customer> ObvListView => CustomerVm.ObvListViewCustomer;
 
         public ObservableDictionaryListViewControl() {
             InitializeComponent();

@@ -2,60 +2,59 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Gstc.Collections.ObservableDictionary.CollectionView {
-    internal class ObservableListViewEnumerator<TKey, TValue> : IEnumerator<TValue> {
+namespace Gstc.Collections.ObservableDictionary.CollectionView;
+internal class ObservableListViewEnumerator<TKey, TValue, TOutput> : IEnumerator<TOutput> {
 
-        private AbstractObservableListView<TKey, TValue> _collectionView;
-        private readonly int _initialVersion;
+    private AbstractObservableListView<TKey, TValue, TOutput> _listView;
+    private readonly int _initialVersion;
 
-        private int _index;
-        private TValue? _current;
+    private int _index;
+    private TOutput? _current;
 
-        internal ObservableListViewEnumerator(AbstractObservableListView<TKey, TValue> collectionView) {
-            _index = 0;
-            _collectionView = collectionView;
-            _initialVersion = _collectionView._version;
-            _current = default;
+    internal ObservableListViewEnumerator(AbstractObservableListView<TKey, TValue, TOutput> listView) {
+        _index = 0;
+        _listView = listView;
+        _initialVersion = _listView._version;
+        _current = default;
+    }
+
+    public void Dispose() {
+        _listView = null;
+        _current = default;
+    }
+
+    public bool MoveNext() {
+        if (_initialVersion == _listView._version && _index < _listView.Count) {
+            _current = _listView[_index];
+            _index++;
+            return true;
         }
+        if (_initialVersion != _listView._version) ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion();
+        _index = _listView.Count + 1;
+        _current = default;
+        return false;
 
-        public void Dispose() {
-            _collectionView = null;
-            _current = default;
+    }
+    public TOutput? Current => _current;
+
+    object IEnumerator.Current {
+        get {
+            if (_index == 0 || _index == _listView.Count + 1) ThrowInvalidOperationException_InvalidOperation_EnumOpCantHappen();
+            return Current;
         }
+    }
 
-        public bool MoveNext() {
-            if (_initialVersion == _collectionView._version && _index < _collectionView.Count) {
-                _current = _collectionView[_index];
-                _index++;
-                return true;
-            }
-            if (_initialVersion != _collectionView._version) ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion();
-            _index = _collectionView.Count + 1;
-            _current = default;
-            return false;
+    void IEnumerator.Reset() {
+        if (_initialVersion != _listView._version) ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion();
 
-        }
-        public TValue? Current => _current!;
+        _index = 0;
+        _current = default;
+    }
 
-        object IEnumerator.Current {
-            get {
-                if (_index == 0 || _index == _collectionView.Count + 1) ThrowInvalidOperationException_InvalidOperation_EnumOpCantHappen();
-                return Current;
-            }
-        }
-
-        void IEnumerator.Reset() {
-            if (_initialVersion != _collectionView._version) ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion();
-
-            _index = 0;
-            _current = default;
-        }
-
-        private void ThrowInvalidOperationException_InvalidOperation_EnumOpCantHappen() {
-            throw new InvalidOperationException("Enumerator index exceeds list index."); //Todo: find out text for this error.
-        }
-        private void ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion() {
-            throw new InvalidOperationException("Collection was modified; enumeration operation may not execute.");
-        }
+    private void ThrowInvalidOperationException_InvalidOperation_EnumOpCantHappen() {
+        throw new InvalidOperationException("Enumerator index exceeds list index."); //Todo: find out text for this error.
+    }
+    private void ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion() {
+        throw new InvalidOperationException("Collection was modified; enumeration operation may not execute.");
     }
 }

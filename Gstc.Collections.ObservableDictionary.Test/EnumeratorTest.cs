@@ -75,7 +75,7 @@ namespace Gstc.Collections.ObservableDictionary.Test {
             //Test 4
             Console.WriteLine("Test: ObservableCollectionView");
             stopWatch = new Stopwatch();
-            var collectionView = new AbstractObservableListView<string, TestClass>(dict);
+            var collectionView = new ObservableListViewValue<string, TestClass>(dict);
             counter = 0;
 
             stopWatch.Start();

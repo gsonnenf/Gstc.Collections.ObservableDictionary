@@ -21,7 +21,7 @@ public partial class ObservableDictionaryControl : UserControl {
     }
 
     public IObservableDictionary<string, Customer> ObvDictionary => CustomerVm.ObvDictionaryCustomers;
-    public INotifyCollectionChanged ObvEnumerable => CustomerVm.ObvEnumerableCustomer;
+    public INotifyCollectionChanged ObvEnumerable => CustomerVm.NotifyCustomers;
 
     public ObservableDictionaryControl() {
         InitializeComponent();
