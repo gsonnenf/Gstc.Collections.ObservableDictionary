@@ -7,7 +7,7 @@ namespace Gstc.Collections.ObservableDictionary.ComponentModel {
         public NotifyDictionaryChangedAction Action => NotifyDictionaryChangedAction.Remove;
         public TKey Key { get; }
         public TValue OldValue { get; }
-        public TValue NewValue => throw new NotSupportedException("Dictionary Reset event does not support NewValue.");
+        TValue INotifyDictionaryChangedEventArgs<TKey, TValue>.NewValue => throw DictionaryEventArgsException.Create(nameof(DictRemoveEventArgs<TKey, TValue>));
         #endregion
 
         public DictRemoveEventArgs(TKey key, TValue oldValue) {

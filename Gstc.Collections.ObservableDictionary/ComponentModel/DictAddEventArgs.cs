@@ -7,7 +7,7 @@ namespace Gstc.Collections.ObservableDictionary.ComponentModel {
         public NotifyDictionaryChangedAction Action => NotifyDictionaryChangedAction.Add;
         public TKey Key { get; }
         public TValue NewValue { get; }
-        public TValue OldValue => throw new NotSupportedException("Dictionary Add event does not support oldValue.");
+        TValue INotifyDictionaryChangedEventArgs<TKey, TValue>.OldValue => throw DictionaryEventArgsException.Create(nameof(DictAddEventArgs<TKey, TValue>));
         #endregion
 
         public DictAddEventArgs(TKey key, TValue newValue) {

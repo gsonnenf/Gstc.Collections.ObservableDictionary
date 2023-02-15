@@ -5,19 +5,19 @@
         /// <summary>
         /// Triggers events when an item or items are removed. 
         /// </summary>
-        event NotifyDictAddEventHander<TKey, TValue> AddingDict;
+        event NotifyDictAddEventHandler<TKey, TValue> AddingKvp;
         /// <summary>
         /// Triggers events when an item or items are removed. 
         /// </summary>
-        event NotifyDictRemoveEventHander<TKey, TValue> RemovingDict;
+        event NotifyDictRemoveEventHandler<TKey, TValue> RemovingKvp;
         /// <summary>
         /// Triggers events when an item has been replaced. 
         /// </summary>
-        event NotifyDictReplaceEventHander<TKey, TValue> ReplacingDict;
+        event NotifyDictReplaceEventHandler<TKey, TValue> ReplacingKvp;
         /// <summary>
         /// Triggers events when an the list has changed substantially such as a Clear(). 
         /// </summary>
-        event NotifyDictResetEventHander<TKey, TValue> ResetingDict;
+        event NotifyDictResetEventHandler<TKey, TValue> ResettingKvp;
     }
 
 }
