@@ -5,12 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gstc.Collections.ObservableDictionary.Demo.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="1200" d:DesignWidth="1200">
+             d:DesignHeight="1200" d:DesignWidth="1200"
+             DataContext="{Binding Path=CustomerVm, RelativeSource={RelativeSource Self}}"
+             >
     <StackPanel Orientation="Horizontal" Height="40px">
-        <Button Padding="5" Margin="5" Click="Button_Click_Add">Add Item</Button>
-        <Button Padding="5" Margin="5" Click="Button_Click_Remove">Remove Item</Button>
-        <Button Padding="5" Margin="5" Click="Button_Click_Replace">Replace Item</Button>
-        <Button Padding="5" Margin="5" Click="Button_Click_ClearAll">Clear All</Button>
-        <Button Padding="5" Margin="5" Click="Button_Click_ReplaceAll">Replace All</Button>
+        <Button Padding="5" Margin="5" Command="{Binding AddItemCommand}">Add Item</Button>
+        <Button Padding="5" Margin="5" Command="{Binding RemoveItemCommand}">Remove Item</Button>
+        <Button Padding="5" Margin="5" Command="{Binding ReplaceItemCommand}">Replace Item</Button>
+        <Button Padding="5" Margin="5" Command="{Binding ClearItemsCommand}">Clear All</Button>
+        <Button Padding="5" Margin="5" Command="{Binding ReplaceItemsCommand}">Replace All</Button>
+        <Button Padding="5" Margin="5" Command="{Binding ReplaceDictCommand}">Replace Internal Dictionary</Button>
+
     </StackPanel>
 </UserControl>

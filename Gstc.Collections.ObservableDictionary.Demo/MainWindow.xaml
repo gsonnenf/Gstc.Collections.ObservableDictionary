@@ -3,18 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Gstc.Collections.ObservableDictionary.Demo" xmlns:observabledictionary="clr-namespace:Gstc.Collections.ObservableDictionary.Demo.ObservableDictionary"
+        xmlns:local="clr-namespace:Gstc.Collections.ObservableDictionary.Demo" 
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <TabControl Name="TestTabControl">
             <TabItem Header="Observable Dictionary Demo" Height="40px">
-                <observabledictionary:ObservableDictionaryControl />
-            </TabItem>
-            <TabItem Header="Observable SortedList Demo" Height="40px">
-                
+                <local:ObservableDictionaryControl />
             </TabItem>
             <TabItem Header="Observable Dictionary Collection Demo" Height="40px">
+                <local:ObservableDictionaryListViewControl />
+            </TabItem>
+            <TabItem Header="Observable SortedList Demo" Height="40px">
+                <TextBlock>Todo</TextBlock>
             </TabItem>
         </TabControl>
         

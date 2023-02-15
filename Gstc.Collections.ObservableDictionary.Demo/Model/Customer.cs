@@ -6,11 +6,9 @@ public class Customer {
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public DateTime BirthDate { get; set; }
-    public double PurchaseAmount { get; set; }
+    public decimal PurchaseAmount { get; set; }
     public string TransactionId { get; set; } = "Invalid_Id";
-
     public int Version { get; set; }
-
     private static Random RandomGenerator { get; } = new Random();
 
     private static string GetRandomFirstName() => FirstNameList[RandomGenerator.Next(FirstNameList.Count)];
@@ -27,11 +25,19 @@ public class Customer {
             FirstName = firstName,
             LastName = lastName,
             BirthDate = DateTime.Now.AddDays(-1 * RandomGenerator.Next(30000) - 3000),
-            PurchaseAmount = 1 + RandomGenerator.Next(10000) * 0.01,
+            PurchaseAmount = 1 + RandomGenerator.Next(10000) * 0.01m,
             TransactionId = GenerateId(lastName),
             Version = 1
         };
+    }
 
+    public static Dictionary<string, Customer> GenerateCustomerDictionary(int count) {
+        var dict = new Dictionary<string, Customer>();
+        for (int i = 0; i < count; i++) {
+            var customer = GenerateCustomer();
+            dict.Add(customer.TransactionId, customer);
+        }
+        return dict;
     }
 
     public static List<Customer> GenerateCustomerList(int count) {
