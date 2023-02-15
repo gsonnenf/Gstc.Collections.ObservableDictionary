@@ -4,14 +4,26 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace Gstc.Collections.ObservableDictionary.CollectionView {
-    public class ObservableCollectionViewSortedList<TKey, TValue> : IObservableCollectionView<TKey, TValue> {
+    public class ObservableCollectionViewSortedList<TKey, TValue> : IObservableListView<TKey, TValue> {
 
+        #region Events
         public event NotifyCollectionChangedEventHandler CollectionChanged;
-
+        public event NotifyCollectionChangedEventHandler Adding;
+        public event NotifyCollectionChangedEventHandler Moving;
+        public event NotifyCollectionChangedEventHandler Removing;
+        public event NotifyCollectionChangedEventHandler Replacing;
+        public event NotifyCollectionChangedEventHandler Resetting;
+        public event NotifyCollectionChangedEventHandler CollectionChanging;
+        public event NotifyCollectionChangedEventHandler Added;
+        public event NotifyCollectionChangedEventHandler Moved;
+        public event NotifyCollectionChangedEventHandler Removed;
+        public event NotifyCollectionChangedEventHandler Replaced;
+        public event NotifyCollectionChangedEventHandler Reset;
+        #endregion
         private SortedList<TKey, TValue> _sortedList;
-        private int _removeKeyIndex;
+        internal int _removeKeyIndex;
 
-        public EnumeratorType EnumeratorType { get; set; } = EnumeratorType.Value;
+        public KvpEnumeratorType EnumeratorType { get; set; } = KvpEnumeratorType.Value;
 
         //public int Count => _sortedList.Count;
 
@@ -36,7 +48,7 @@ namespace Gstc.Collections.ObservableDictionary.CollectionView {
         /// </summary>
         /// <param name="key"></param>
         /// <param name="newItem"></param>
-        void IObservableCollectionView<TKey, TValue>.OnCollectionChanged_Add(TKey key, TValue newItem) {
+        void OnCollectionChanged_Add(TKey key, TValue newItem) {
             var eventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newItem, _sortedList.IndexOfKey(key));
             CollectionChanged.Invoke(this, eventArgs);
         }
@@ -44,7 +56,7 @@ namespace Gstc.Collections.ObservableDictionary.CollectionView {
         /// <summary>
         /// O(1)
         /// </summary>
-        void IObservableCollectionView<TKey, TValue>.OnCollectionChanged_Clear() {
+        void OnCollectionChanged_Clear() {
             var eventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
             CollectionChanged.Invoke(this, eventArgs);
         }
@@ -54,7 +66,7 @@ namespace Gstc.Collections.ObservableDictionary.CollectionView {
         /// </summary>
         /// <param name="key"></param>
         /// <param name="newItem"></param>
-        void IObservableCollectionView<TKey, TValue>.OnCollectionChanged_Insert(TKey key, TValue newItem, int index)
+        void OnCollectionChanged_Insert(TKey key, TValue newItem, int index)
             => throw new NotSupportedException("ObservableCollectionViewSortedList does not support insert.");
 
         /// <summary>
@@ -62,7 +74,7 @@ namespace Gstc.Collections.ObservableDictionary.CollectionView {
         /// </summary>
         /// <param name="key"></param>
         /// <param name="oldItem"></param>
-        void IObservableCollectionView<TKey, TValue>.OnCollectionChanged_Removing(TKey key, TValue oldItem)
+        void OnCollectionChanged_Removing(TKey key, TValue oldItem)
             => _removeKeyIndex = _sortedList.IndexOfKey(key);
         /// <summary>
         /// O(n) for no _keyIndexDictionary
@@ -70,7 +82,7 @@ namespace Gstc.Collections.ObservableDictionary.CollectionView {
         /// </summary>
         /// <param name="key"></param>
         /// <param name="oldItem"></param>
-        void IObservableCollectionView<TKey, TValue>.OnCollectionChanged_Remove(TKey key, TValue oldItem) {
+        void OnCollectionChanged_Remove(TKey key, TValue oldItem) {
             var eventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItem, _removeKeyIndex);
             CollectionChanged.Invoke(this, eventArgs);
         }
@@ -82,7 +94,7 @@ namespace Gstc.Collections.ObservableDictionary.CollectionView {
         /// <param name="key"></param>
         /// <param name="newItem"></param>
         /// <param name="oldItem"></param>
-        void IObservableCollectionView<TKey, TValue>.OnCollectionChanged_Replace(TKey key, TValue newItem, TValue oldItem) {
+        void OnCollectionChanged_Replace(TKey key, TValue newItem, TValue oldItem) {
             var eventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItem, oldItem, _sortedList.IndexOfKey(key));
             CollectionChanged.Invoke(this, eventArgs);
         }
@@ -90,19 +102,19 @@ namespace Gstc.Collections.ObservableDictionary.CollectionView {
         /// <summary>
         /// O(n)
         /// </summary>
-        void IObservableCollectionView<TKey, TValue>.OnCollectionChanged_Reset() {
+        void OnCollectionChanged_Reset() {
             var eventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
             CollectionChanged.Invoke(this, eventArgs);
         }
         #endregion
 
         #region Enumerators
-        public IEnumerator<TValue> GetEnumerator() => new EnumeratorKvpToValue<TKey, TValue>(_sortedList.GetEnumerator());
+        public IEnumerator<TValue> GetEnumerator() => _sortedList.Values.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => EnumeratorType switch {
-            EnumeratorType.Value => new EnumeratorKvpToValue<TKey, TValue>(_sortedList.GetEnumerator()),
-            EnumeratorType.Key => throw new NotImplementedException(),
-            EnumeratorType.KeyValuePair => _sortedList.GetEnumerator()
+            KvpEnumeratorType.Value => _sortedList.Values.GetEnumerator(),
+            KvpEnumeratorType.Key => _sortedList.Keys.GetEnumerator(),
+            KvpEnumeratorType.KeyValuePair => _sortedList.GetEnumerator()
         };
         #endregion
     }

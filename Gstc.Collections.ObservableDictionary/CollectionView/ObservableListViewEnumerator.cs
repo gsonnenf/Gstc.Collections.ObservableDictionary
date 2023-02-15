@@ -3,22 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace Gstc.Collections.ObservableDictionary.CollectionView {
-    internal class EnumeratorCollectionView<TKey, TValue>
-        : IEnumerator<TValue> {
-        private readonly ObservableCollectionView<TKey, TValue> _collectionView;
+    internal class ObservableListViewEnumerator<TKey, TValue> : IEnumerator<TValue> {
+
+        private AbstractObservableListView<TKey, TValue> _collectionView;
         private readonly int _initialVersion;
 
         private int _index;
         private TValue? _current;
 
-        internal EnumeratorCollectionView(ObservableCollectionView<TKey, TValue> collectionView) {
+        internal ObservableListViewEnumerator(AbstractObservableListView<TKey, TValue> collectionView) {
             _index = 0;
             _collectionView = collectionView;
             _initialVersion = _collectionView._version;
             _current = default;
         }
 
-        public void Dispose() { }
+        public void Dispose() {
+            _collectionView = null;
+            _current = default;
+        }
 
         public bool MoveNext() {
             if (_initialVersion == _collectionView._version && _index < _collectionView.Count) {
@@ -27,13 +30,12 @@ namespace Gstc.Collections.ObservableDictionary.CollectionView {
                 return true;
             }
             if (_initialVersion != _collectionView._version) ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion();
-
             _index = _collectionView.Count + 1;
             _current = default;
             return false;
 
         }
-        public TValue Current => _current!;
+        public TValue? Current => _current!;
 
         object IEnumerator.Current {
             get {
@@ -43,9 +45,8 @@ namespace Gstc.Collections.ObservableDictionary.CollectionView {
         }
 
         void IEnumerator.Reset() {
-            if (_initialVersion != _collectionView._version) {
-                ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion();
-            }
+            if (_initialVersion != _collectionView._version) ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion();
+
             _index = 0;
             _current = default;
         }

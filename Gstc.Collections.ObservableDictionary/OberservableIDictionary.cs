@@ -1,4 +1,5 @@
 ﻿using Gstc.Collections.ObservableDictionary.Abstract;
+using Gstc.Collections.ObservableDictionary.CollectionView;
 using Gstc.Collections.ObservableDictionary.ComponentModel;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,19 +24,19 @@ namespace Gstc.Collections.ObservableDictionary {
 
         #region Events Dictionary Changing
         public event NotifyDictionaryChangingEventHandler<TKey, TValue> DictionaryChanging;
-        public event NotifyDictAddEventHander<TKey, TValue> AddingDict;
-        public event NotifyDictRemoveEventHander<TKey, TValue> RemovingDict;
-        public event NotifyDictReplaceEventHander<TKey, TValue> ReplacingDict;
-        public event NotifyDictResetEventHander<TKey, TValue> ResetingDict;
+        public event NotifyDictAddEventHandler<TKey, TValue> AddingKvp;
+        public event NotifyDictRemoveEventHandler<TKey, TValue> RemovingKvp;
+        public event NotifyDictReplaceEventHandler<TKey, TValue> ReplacingKvp;
+        public event NotifyDictResetEventHandler<TKey, TValue> ResettingKvp;
         #endregion
 
         #region Events Dictionary Changed
         public event PropertyChangedEventHandler PropertyChanged;
-        public event NotifyDictionaryChangedEventHandler<TKey, TValue> DictionaryChanged;
-        public event NotifyDictAddEventHander<TKey, TValue> AddedDict;
-        public event NotifyDictRemoveEventHander<TKey, TValue> RemovedDict;
-        public event NotifyDictReplaceEventHander<TKey, TValue> ReplacedDict;
-        public event NotifyDictResetEventHander<TKey, TValue> ResetDict;
+        public event NotifyDictionaryDictionaryChangedEventHandler<TKey, TValue> DictionaryChanged;
+        public event NotifyDictAddEventHandler<TKey, TValue> AddedKvp;
+        public event NotifyDictRemoveEventHandler<TKey, TValue> RemovedKvp;
+        public event NotifyDictReplaceEventHandler<TKey, TValue> ReplacedKvp;
+        public event NotifyDictResetEventHandler<TKey, TValue> ResetKvp;
         #endregion
 
         #region Fields and Properties
@@ -52,21 +53,21 @@ namespace Gstc.Collections.ObservableDictionary {
                 using (BlockReentrancy()) {
                     var eventArgs = new DictResetEventArgs<TKey, TValue>();
                     DictionaryChanging?.Invoke(this, eventArgs);
-                    ResetingDict?.Invoke(this, eventArgs);
+                    ResettingKvp?.Invoke(this, eventArgs);
 
                     _dictionary = value;
 
                     OnPropertyChangedCountAndIndex();
                     DictionaryChanged?.Invoke(this, eventArgs);
-                    ResetDict?.Invoke(this, eventArgs);
+                    ResetKvp?.Invoke(this, eventArgs);
                 }
             }
         }
         #endregion
 
         #region Constructors
-        protected ObservableIDictionary() => _dictionary = new TDictionary();
-        protected ObservableIDictionary(TDictionary dictionary) => _dictionary = dictionary;
+        public ObservableIDictionary() => _dictionary = new TDictionary();
+        public ObservableIDictionary(TDictionary dictionary) => _dictionary = dictionary;
         #endregion
 
         #region Methods
@@ -84,13 +85,13 @@ namespace Gstc.Collections.ObservableDictionary {
 
                     var eventArgs = new DictReplaceEventArgs<TKey, TValue>(key, oldValue, newValue);
                     DictionaryChanging?.Invoke(this, eventArgs);
-                    ReplacingDict?.Invoke(this, eventArgs);
+                    ReplacingKvp?.Invoke(this, eventArgs);
 
                     _dictionary[key] = newValue;
 
                     OnPropertyChangedIndex();
                     DictionaryChanged?.Invoke(this, eventArgs);
-                    ReplacedDict?.Invoke(this, eventArgs);
+                    ReplacedKvp?.Invoke(this, eventArgs);
                 }
             }
         }
@@ -99,13 +100,13 @@ namespace Gstc.Collections.ObservableDictionary {
             using (BlockReentrancy()) {
                 var eventArgs = new DictAddEventArgs<TKey, TValue>(key, value);
                 DictionaryChanging?.Invoke(this, eventArgs);
-                AddingDict?.Invoke(this, eventArgs);
+                AddingKvp?.Invoke(this, eventArgs);
 
                 _dictionary.Add(key, value);
 
                 OnPropertyChangedCountAndIndex();
                 DictionaryChanged?.Invoke(this, eventArgs);
-                AddedDict?.Invoke(this, eventArgs);
+                AddedKvp?.Invoke(this, eventArgs);
             }
         }
 
@@ -113,13 +114,13 @@ namespace Gstc.Collections.ObservableDictionary {
             using (BlockReentrancy()) {
                 var eventArgs = new DictResetEventArgs<TKey, TValue>();
                 DictionaryChanging?.Invoke(this, eventArgs);
-                ResetingDict?.Invoke(this, eventArgs);
+                ResettingKvp?.Invoke(this, eventArgs);
 
                 _internalDictionaryKv.Clear(); //Fixes ambiguity between IDictionary<> and IDictionary
 
                 OnPropertyChangedCountAndIndex();
                 DictionaryChanged?.Invoke(this, eventArgs);
-                ResetDict?.Invoke(this, eventArgs);
+                ResetKvp?.Invoke(this, eventArgs);
             }
         }
 
@@ -127,11 +128,11 @@ namespace Gstc.Collections.ObservableDictionary {
             using (BlockReentrancy()) {
                 var eventArgs = new DictResetEventArgs<TKey, TValue>();
                 DictionaryChanging?.Invoke(this, eventArgs);
-                ResetingDict?.Invoke(this, eventArgs);
+                ResettingKvp?.Invoke(this, eventArgs);
 
                 OnPropertyChangedCountAndIndex();
                 DictionaryChanged?.Invoke(this, eventArgs);
-                ResetDict?.Invoke(this, eventArgs);
+                ResetKvp?.Invoke(this, eventArgs);
             }
         }
 
@@ -140,11 +141,11 @@ namespace Gstc.Collections.ObservableDictionary {
                 var oldValue = _dictionary[key];
                 var eventArgs = new DictReplaceEventArgs<TKey, TValue>(key, oldValue, oldValue);
                 DictionaryChanging?.Invoke(this, eventArgs);
-                ReplacingDict?.Invoke(this, eventArgs);
+                ReplacingKvp?.Invoke(this, eventArgs);
 
                 OnPropertyChangedIndex();
                 DictionaryChanged?.Invoke(this, eventArgs);
-                ReplacedDict?.Invoke(this, eventArgs);
+                ReplacedKvp?.Invoke(this, eventArgs);
             }
         }
 
@@ -153,16 +154,32 @@ namespace Gstc.Collections.ObservableDictionary {
                 var oldValue = _dictionary[key];
                 var eventArgs = new DictRemoveEventArgs<TKey, TValue>(key, oldValue);
                 DictionaryChanging?.Invoke(this, eventArgs);
-                RemovingDict?.Invoke(this, eventArgs);
+                RemovingKvp?.Invoke(this, eventArgs);
 
                 if (!_dictionary.Remove(key)) return false;
 
                 OnPropertyChangedCountAndIndex();
                 DictionaryChanged?.Invoke(this, eventArgs);
-                RemovedDict?.Invoke(this, eventArgs);
+                RemovedKvp?.Invoke(this, eventArgs);
                 return true;
             }
         }
+        #endregion
+
+        #region Observable Views
+        public IObservableEnumerable<KeyValuePair<TKey, TValue>> ObservableEnumerableKvp => _observableEnumerableKvp ??= new ObservableEnumerableKvp<TKey, TValue>(this);
+        private IObservableEnumerable<KeyValuePair<TKey, TValue>> _observableEnumerableKvp;
+
+        public IObservableEnumerable<TValue> ObservableEnumerableValue => _observableEnumerableValue ??= new ObservableEnumerableValue<TKey, TValue>(this);
+        private IObservableEnumerable<TValue> _observableEnumerableValue;
+
+        public IObservableEnumerable<TKey> ObservableEnumerableKey => _observableEnumerableKey ??= new ObservableEnumerableKey<TKey, TValue>(this);
+        private IObservableEnumerable<TKey> _observableEnumerableKey;
+        #endregion
+
+        #region ObservableListView
+        public IObservableListView<TKey, TValue> ObservableListView => _observableListView ??= new AbstractObservableListView<TKey, TValue>(this);
+        private IObservableListView<TKey, TValue> _observableListView;
         #endregion
 
         #region Property Notify Methods
@@ -190,6 +207,7 @@ namespace Gstc.Collections.ObservableDictionary {
         /// </summary>
         private SimpleMonitor ReentrancyMonitor => _monitor ??= new SimpleMonitor();
         private SimpleMonitor _monitor;
+
 
         public bool AllowReentrancy {
             get => ReentrancyMonitor.AllowReentrancy;

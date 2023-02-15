@@ -1,33 +1,26 @@
-﻿using Gstc.Collections.ObservableDictionary.Abstract;
-using Gstc.Collections.ObservableDictionary.CollectionView;
-using Gstc.Collections.ObservableDictionary.ComponentModel;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
-
-//Todo: Add insert to a non-generic ObservableIDictionaryCollection that is not sorted.
+﻿//Todo: Add insert to a non-generic ObservableIDictionaryCollection that is not sorted.
 namespace Gstc.Collections.ObservableDictionary {
+    /*
     public class ObservableIDictionaryCollection<TKey, TValue, TDictionary>
-        : AbstractDictionaryUpcast<TKey, TValue>
+        : AbstractDictionaryUpcast<TKey, TValue>,
+        IObservableDictionary<TKey, TValue>
         where TDictionary : IDictionary<TKey, TValue>, IDictionary, new() {
 
         #region Events Dictionary Changing
         public event NotifyDictionaryChangingEventHandler<TKey, TValue> DictionaryChanging;
-        public event NotifyDictAddEventHander<TKey, TValue> AddingDict;
-        public event NotifyDictRemoveEventHander<TKey, TValue> RemovingDict;
-        public event NotifyDictReplaceEventHander<TKey, TValue> ReplacingDict;
-        public event NotifyDictResetEventHander<TKey, TValue> ResetingDict;
+        public event NotifyDictAddEventHander<TKey, TValue> AddingKvp;
+        public event NotifyDictRemoveEventHander<TKey, TValue> RemovingKvp;
+        public event NotifyDictReplaceEventHander<TKey, TValue> ReplacingKvp;
+        public event NotifyDictResetEventHander<TKey, TValue> ResettingKvp;
         #endregion
 
         #region Events Dictionary Changed
         public event PropertyChangedEventHandler PropertyChanged;
         public event NotifyDictionaryChangedEventHandler<TKey, TValue> DictionaryChanged;
-        public event NotifyDictAddEventHander<TKey, TValue> AddedDict;
-        public event NotifyDictRemoveEventHander<TKey, TValue> RemovedDict;
-        public event NotifyDictReplaceEventHander<TKey, TValue> ReplacedDict;
-        public event NotifyDictResetEventHander<TKey, TValue> ResetDict;
+        public event NotifyDictAddEventHander<TKey, TValue> AddedDKvp;
+        public event NotifyDictRemoveEventHander<TKey, TValue> RemovedKvp;
+        public event NotifyDictReplaceEventHander<TKey, TValue> ReplacedKvp;
+        public event NotifyDictResetEventHander<TKey, TValue> ResetKvp;
         #endregion
 
         #region Fields and Properties
@@ -45,13 +38,13 @@ namespace Gstc.Collections.ObservableDictionary {
                 using (BlockReentrancy()) {
                     var eventArgs = new DictResetEventArgs<TKey, TValue>();
                     DictionaryChanging?.Invoke(this, eventArgs);
-                    ResetingDict?.Invoke(this, eventArgs);
+                    ResettingKvp?.Invoke(this, eventArgs);
 
                     _dictionary = value;
 
                     OnPropertyChangedCountAndIndex();
                     DictionaryChanged?.Invoke(this, eventArgs);
-                    ResetDict?.Invoke(this, eventArgs);
+                    ResetKvp?.Invoke(this, eventArgs);
                     CollectionView.OnCollectionChanged_Reset();
                 }
             }
@@ -59,12 +52,12 @@ namespace Gstc.Collections.ObservableDictionary {
         #endregion
 
         #region Constructors
-        protected ObservableIDictionaryCollection() {
+        public ObservableIDictionaryCollection() {
             _dictionary = new TDictionary();
             CollectionView = new ObservableCollectionView<TKey, TValue>(this);
         }
 
-        protected ObservableIDictionaryCollection(TDictionary dictionary) {
+        public ObservableIDictionaryCollection(TDictionary dictionary) {
             _dictionary = dictionary;
             CollectionView = new ObservableCollectionView<TKey, TValue>(this);
         }
@@ -84,13 +77,13 @@ namespace Gstc.Collections.ObservableDictionary {
 
                     var eventArgs = new DictReplaceEventArgs<TKey, TValue>(key, oldValue, newValue);
                     DictionaryChanging?.Invoke(this, eventArgs);
-                    ReplacingDict?.Invoke(this, eventArgs);
+                    ReplacingKvp?.Invoke(this, eventArgs);
 
                     _dictionary[key] = newValue;
 
                     OnPropertyChangedIndex();
                     DictionaryChanged?.Invoke(this, eventArgs);
-                    ReplacedDict?.Invoke(this, eventArgs);
+                    ReplacedKvp?.Invoke(this, eventArgs);
                     CollectionView.OnCollectionChanged_Replace(key, oldValue, newValue);
                 }
             }
@@ -100,13 +93,13 @@ namespace Gstc.Collections.ObservableDictionary {
             using (BlockReentrancy()) {
                 var eventArgs = new DictAddEventArgs<TKey, TValue>(key, value);
                 DictionaryChanging?.Invoke(this, eventArgs);
-                AddingDict?.Invoke(this, eventArgs);
+                AddingKvp?.Invoke(this, eventArgs);
 
                 _dictionary.Add(key, value);
 
                 OnPropertyChangedCountAndIndex();
                 DictionaryChanged?.Invoke(this, eventArgs);
-                AddedDict?.Invoke(this, eventArgs);
+                AddedDKvp?.Invoke(this, eventArgs);
                 CollectionView.OnCollectionChanged_Add(key, value);
             }
         }
@@ -115,14 +108,41 @@ namespace Gstc.Collections.ObservableDictionary {
             using (BlockReentrancy()) {
                 var eventArgs = new DictResetEventArgs<TKey, TValue>();
                 DictionaryChanging?.Invoke(this, eventArgs);
-                ResetingDict?.Invoke(this, eventArgs);
+                ResettingKvp?.Invoke(this, eventArgs);
 
                 _internalDictionaryKv.Clear();
 
                 OnPropertyChangedCountAndIndex();
                 DictionaryChanged?.Invoke(this, eventArgs);
-                ResetDict?.Invoke(this, eventArgs);
+                ResetKvp?.Invoke(this, eventArgs);
                 CollectionView.OnCollectionChanged_Clear();
+            }
+        }
+
+        public void RefreshAll() {
+            using (BlockReentrancy()) {
+                var eventArgs = new DictResetEventArgs<TKey, TValue>();
+                DictionaryChanging?.Invoke(this, eventArgs);
+                ResettingKvp?.Invoke(this, eventArgs);
+
+                OnPropertyChangedCountAndIndex();
+                DictionaryChanged?.Invoke(this, eventArgs);
+                ResetKvp?.Invoke(this, eventArgs);
+                CollectionView.OnCollectionChanged_Clear();
+            }
+        }
+
+        public void RefreshKey(TKey key) {
+            using (BlockReentrancy()) {
+                var oldValue = _dictionary[key];
+                var eventArgs = new DictReplaceEventArgs<TKey, TValue>(key, oldValue, oldValue);
+                DictionaryChanging?.Invoke(this, eventArgs);
+                ReplacingKvp?.Invoke(this, eventArgs);
+
+                OnPropertyChangedIndex();
+                DictionaryChanged?.Invoke(this, eventArgs);
+                ReplacedKvp?.Invoke(this, eventArgs);
+                CollectionView.OnCollectionChanged_Replace(key, oldValue, oldValue);
             }
         }
 
@@ -132,14 +152,14 @@ namespace Gstc.Collections.ObservableDictionary {
 
                 var eventArgs = new DictRemoveEventArgs<TKey, TValue>(key, oldValue);
                 DictionaryChanging?.Invoke(this, eventArgs);
-                RemovingDict?.Invoke(this, eventArgs);
+                RemovingKvp?.Invoke(this, eventArgs);
                 CollectionView.OnCollectionChanged_Removing(key, oldValue);
 
                 if (!_dictionary.Remove(key)) return false;
 
                 OnPropertyChangedCountAndIndex();
                 DictionaryChanged?.Invoke(this, eventArgs);
-                RemovedDict?.Invoke(this, eventArgs);
+                RemovedKvp?.Invoke(this, eventArgs);
                 CollectionView.OnCollectionChanged_Remove(key, oldValue);
                 return true;
             }
@@ -182,6 +202,7 @@ namespace Gstc.Collections.ObservableDictionary {
 
         #endregion
     }
+    */
 
 }
 

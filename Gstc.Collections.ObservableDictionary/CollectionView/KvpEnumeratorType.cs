@@ -1,5 +1,5 @@
 ﻿namespace Gstc.Collections.ObservableDictionary.CollectionView {
-    public enum EnumeratorType {
+    public enum KvpEnumeratorType {
         Value,
         Key,
         KeyValuePair
