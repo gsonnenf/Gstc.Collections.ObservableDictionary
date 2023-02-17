@@ -8,8 +8,8 @@ public class CustomerVmEnumerableView : NotifyPropertyChanged, ICustomerVm {
 
     private ObservableDictionary<string, Customer> _obvDictCustomer = new();
     public IObservableDictionary<string, Customer> ObvDictionaryCustomers => _obvDictCustomer;
-    public IEnumerable<string> EnumerableCustomers => _obvDictCustomer.ObservableEnumerableKey;
-    public INotifyCollectionChanged NotifyCustomers => _obvDictCustomer.ObservableEnumerableKey;
+    public IEnumerable<KeyValuePair<string, Customer>> EnumerableKvpCustomers => _obvDictCustomer.ObservableEnumerableKvp;
+    public INotifyCollectionChanged NotifyCustomers => _obvDictCustomer.ObservableEnumerableKvp;
 
 
     #region Properties

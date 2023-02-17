@@ -15,6 +15,5 @@
         <Button Padding="5" Margin="5" Command="{Binding ClearItemsCommand}">Clear All</Button>
         <Button Padding="5" Margin="5" Command="{Binding ReplaceItemsCommand}">Replace All</Button>
         <Button Padding="5" Margin="5" Command="{Binding ReplaceDictCommand}">Replace Internal Dictionary</Button>
-
     </StackPanel>
 </UserControl>

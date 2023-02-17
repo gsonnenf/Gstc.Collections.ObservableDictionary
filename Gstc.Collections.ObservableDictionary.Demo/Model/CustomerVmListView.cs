@@ -9,10 +9,8 @@ public class CustomerVmListView : NotifyPropertyChanged, ICustomerVm {
     private ObservableDictionary<string, Customer> _obvDictCustomer = new();
     private string? _selectedCustomerKey;
     public IObservableDictionary<string, Customer> ObvDictionaryCustomers => _obvDictCustomer;
-    public ObservableListViewKey<string, Customer> ObvListViewCustomer => _obvDictCustomer.ObservableListViewKey;
-
-    public IEnumerable<string> EnumerableCustomers => _obvDictCustomer.ObservableListViewKey;
-
+    public ObservableListViewKvp<string, Customer> ObvListViewCustomer => _obvDictCustomer.ObservableListViewKvp;
+    public IEnumerable<KeyValuePair<string, Customer>> EnumerableKvpCustomers => _obvDictCustomer.ObservableListViewKvp;
     public INotifyCollectionChanged NotifyCustomers => _obvDictCustomer.ObservableListViewKey;
 
     public string? SelectedCustomerKey {

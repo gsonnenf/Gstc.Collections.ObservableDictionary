@@ -4,9 +4,8 @@ using System.Collections.Specialized;
 namespace Gstc.Collections.ObservableDictionary.Demo.Model;
 public interface ICustomerVm {
     public IObservableDictionary<string, Customer> ObvDictionaryCustomers { get; }
-    public IEnumerable<string> EnumerableCustomers { get; }
+    public IEnumerable<KeyValuePair<string, Customer>> EnumerableKvpCustomers { get; }
     public INotifyCollectionChanged NotifyCustomers { get; }
-
     public string? SelectedCustomerKey { get; set; }
     void AddItem();
     void ClearItems();

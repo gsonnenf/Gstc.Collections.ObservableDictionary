@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="280"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <ListView Grid.Column="0" Name="ListViewKeys" ItemsSource="{Binding EnumerableCustomers}" SelectionChanged="KeyListView_SelectionChanged" SelectionMode="Single"/>
+            <ListView Grid.Column="0" Name="ListViewKeys" ItemsSource="{Binding EnumerableKvpCustomers}" SelectionChanged="KeyListView_SelectionChanged" SelectionMode="Single"/>
             <pt:PropertyGrid Grid.Column="1" Name="ItemPropertyGrid" SelectedObject="{Binding SelectedCustomer}"  Grid.ColumnSpan="2"></pt:PropertyGrid>
         </Grid>
     </DockPanel>

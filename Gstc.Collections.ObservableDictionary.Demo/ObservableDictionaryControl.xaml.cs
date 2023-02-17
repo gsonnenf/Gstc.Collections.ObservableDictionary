@@ -1,6 +1,5 @@
 ﻿using Gstc.Collections.ObservableDictionary.Demo.Model;
 using System;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,23 +9,22 @@ namespace Gstc.Collections.ObservableDictionary.Demo;
 public partial class ObservableDictionaryControl : UserControl {
 
     public readonly static DependencyProperty DictionarySourceProperty
-        = DependencyProperty.Register(nameof(CustomerVm), typeof(CustomerVmEnumerableView), typeof(ObservableDictionaryControl));
+        = DependencyProperty.Register(nameof(CustomerVm), typeof(ICustomerVm), typeof(ObservableDictionaryControl));
 
     private static readonly DependencyPropertyDescriptor DictionarySourceDpd
         = DependencyPropertyDescriptor.FromProperty(DictionarySourceProperty, typeof(ObservableDictionaryControl));
 
-    public CustomerVmEnumerableView CustomerVm {
-        get => (CustomerVmEnumerableView)GetValue(DictionarySourceProperty);
+    public ICustomerVm CustomerVm {
+        get => (ICustomerVm)GetValue(DictionarySourceProperty);
         set => SetValue(DictionarySourceProperty, value);
     }
 
     public IObservableDictionary<string, Customer> ObvDictionary => CustomerVm.ObvDictionaryCustomers;
-    public INotifyCollectionChanged ObvEnumerable => CustomerVm.NotifyCustomers;
 
     public ObservableDictionaryControl() {
         InitializeComponent();
         DictionarySourceDpd.AddValueChanged(this, BindEvents);
-        CustomerVm = new CustomerVmEnumerableView();
+        CustomerVm = new CustomerVmListView();
         ListViewKeys.SelectedIndex = 0;
     }
 
@@ -47,7 +45,7 @@ public partial class ObservableDictionaryControl : UserControl {
         ObvDictionary.ReplacingKvp += (_, args) => Log("Replacing item " + args.Key + " Version " + args.NewValue.Version);
     }
 
-    private void KeyListView_SelectionChanged(object sender, SelectionChangedEventArgs e) => CustomerVm.SelectedCustomerKey = (string)ListViewKeys.SelectedItem;
+    private void KeyListView_SelectionChanged(object sender, SelectionChangedEventArgs e) { }//=>CustomerVm.SelectedCustomerKey = (string)ListViewKeys.SelectedItem;
 
     private void Log(string message) => LogTextBox.Text = "[" + DateTime.Now.ToString("mm:ss") + "]" + message + "\n" + LogTextBox.Text;
 }
