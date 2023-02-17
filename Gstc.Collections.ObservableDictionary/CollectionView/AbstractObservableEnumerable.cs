@@ -16,26 +16,31 @@ namespace Gstc.Collections.ObservableDictionary.CollectionView;
 /// <typeparam name="TValue">The TValue of the dictionary and of the enumerable KeyValuePair{TKey,TValue} TItem type.</typeparam>
 public abstract class AbstractObservableEnumerable<TKey, TValue, TOutput> : IObservableEnumerable<TOutput>, IDisposable {
 
+    #region Members
     public event NotifyCollectionChangedEventHandler CollectionChanged;
 
     protected IObservableDictionary<TKey, TValue> _obvDictionary;
+    #endregion
+
+    #region Ctor
     public AbstractObservableEnumerable(IObservableDictionary<TKey, TValue> obvDictionary) {
         _obvDictionary = obvDictionary;
         _obvDictionary.DictionaryChanged += DictionaryChanged;
     }
+
     ~AbstractObservableEnumerable() => Dispose();
 
-    /// <summary>
-    /// When dictionary changes, calls a collection change event. A reset event is always used because index information is not available.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void DictionaryChanged(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> e)
-        => CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     public void Dispose() {
         _obvDictionary.DictionaryChanged -= DictionaryChanged;
-        _obvDictionary = null;
+        _obvDictionary = default;
     }
+    #endregion
+
+
+    ///Calls reset event on colllection change. A reset event is always used because index information is not available.
+    private void DictionaryChanged(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> e)
+        => CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
     public abstract IEnumerator<TOutput> GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

@@ -19,14 +19,13 @@ internal class ObservableListViewEnumerator<TKey, TValue, TOutput> : IEnumerator
     }
 
     public void Dispose() {
-        _listView = null;
+        _listView = default;
         _current = default;
     }
 
     public bool MoveNext() {
         if (_initialVersion == _listView._version && _index < _listView.Count) {
-            _current = _listView[_index];
-            _index++;
+            _current = _listView[_index++];
             return true;
         }
         if (_initialVersion != _listView._version) ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion();
@@ -39,14 +38,13 @@ internal class ObservableListViewEnumerator<TKey, TValue, TOutput> : IEnumerator
 
     object IEnumerator.Current {
         get {
-            if (_index == 0 || _index == _listView.Count + 1) ThrowInvalidOperationException_InvalidOperation_EnumOpCantHappen();
+            if (_index == 0 || _index > _listView.Count) ThrowInvalidOperationException_InvalidOperation_EnumOpCantHappen();
             return Current;
         }
     }
 
     void IEnumerator.Reset() {
         if (_initialVersion != _listView._version) ThrowInvalidOperationException_InvalidOperation_EnumFailedVersion();
-
         _index = 0;
         _current = default;
     }

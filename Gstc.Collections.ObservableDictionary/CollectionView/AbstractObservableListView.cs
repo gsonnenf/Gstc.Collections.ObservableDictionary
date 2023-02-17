@@ -11,7 +11,7 @@ namespace Gstc.Collections.ObservableDictionary.CollectionView;
 /// </summary>
 /// <typeparam name="TKey"></typeparam>
 /// <typeparam name="TValue"></typeparam>
-public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObservableListView<TKey, TValue, TOutput> {
+public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObservableListView<TOutput>, IDisposable {
 
     #region Events
     public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -37,27 +37,30 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
 
     public int Count => _orderedCollection.Count;
 
+    #region Constructor
     public AbstractObservableListView(IObservableDictionary<TKey, TValue> obvDict) {
         _obvDict = obvDict;
         RebuildIndices();
-        BindChanged();
+        _obvDict.AddedKvp += OnAddedValue;
+        _obvDict.RemovedKvp += OnRemovedValue;
+        _obvDict.ReplacedKvp += OnReplacedValue;
+        _obvDict.ResetKvp += OnResetValue;
+        //todo: setup Changing events as well
     }
 
-    private void BindChanging() => throw new NotImplementedException();
+    ~AbstractObservableListView() => Dispose();
 
-    private void BindChanged() {
-        _obvDict.AddedKvp += OnAdded;
-        _obvDict.RemovedKvp += OnRemoved;
-        _obvDict.ReplacedKvp += OnReplaced;
-        _obvDict.ResetKvp += OnReset;
-    }
 
-    private void UnbindChanged() {
-        _obvDict.AddedKvp -= OnAdded;
-        _obvDict.RemovedKvp -= OnRemoved;
-        _obvDict.ReplacedKvp -= OnReplaced;
-        _obvDict.ResetKvp -= OnReset;
+    public void Dispose() {
+        _obvDict.AddedKvp -= OnAddedValue;
+        _obvDict.RemovedKvp -= OnRemovedValue;
+        _obvDict.ReplacedKvp -= OnReplacedValue;
+        _obvDict.ResetKvp -= OnResetValue;
+        _obvDict = default;
+        _keyIndexDictionary = default;
+        _orderedCollection = default;
     }
+    #endregion
 
     #region Enumerators
     public IEnumerator<TOutput> GetEnumerator() => new ObservableListViewEnumerator<TKey, TValue, TOutput>(this);
@@ -70,8 +73,9 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
     /// </summary>
     /// <param name="index"></param>
     /// <returns></returns>
-    public abstract TOutput this[int index] { get; }  // => _orderedCollection[index].Value; //This benchmarks 310ms. The extra memory for a kvp is probably worth the faster access.
-    //public TValue this[int index] => _obvDict[_orderedCollection[index]]; //This benchmarks at 530ms, with _orderedCollection only holding keys.
+     //notes: _orderedCollection[index].Value; benchmarks @ 310ms. The extra memory for a kvp is probably worth the faster access.
+    // notes: _obvDict[_orderedCollection[index]]; benchmarks @ 530ms, with _orderedCollection only holding keys. It uses less memory, but is much slower.
+    public abstract TOutput this[int index] { get; }
 
     /// <summary>
     /// O(n) for _keyIndexDictionary
@@ -104,13 +108,13 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
     }
     #endregion
 
-    #region EventHandlers
+    #region Event Handlers Value
     /// <summary>
     /// O(1)
     /// </summary>
     /// <param name="key"></param>
     /// <param name="newItem"></param>
-    private void OnAdded(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> args) {
+    private void OnAddedValue(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> args) {
         var key = args.Key;
         var newItem = args.NewValue;
         _version++;
@@ -135,7 +139,7 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
     /// </summary>
     /// <param name="key"></param>
     /// <param name="oldItem"></param>
-    private void OnRemoved(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> args) {
+    private void OnRemovedValue(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> args) {
         _version++;
         var key = args.Key;
         var oldItem = args.OldValue;
@@ -155,7 +159,7 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
     /// <param name="newItem"></param>
     /// <param name="oldItem"></param>
     /// 
-    void OnReplaced(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> args) {
+    void OnReplacedValue(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> args) {
         _version++;
         var key = args.Key;
         var newItem = args.NewValue;
@@ -170,13 +174,18 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
     /// <summary>
     /// O(n)
     /// </summary>
-    void OnReset(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> args) {
+    void OnResetValue(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> args) {
         _version++;
         RebuildIndices();
         var eventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
         CollectionChanged?.Invoke(this, eventArgs);
         Reset?.Invoke(this, eventArgs);
     }
+    #endregion
+
+    #region Event Handles Key
+
+
     #endregion
 
     #region helper methods
@@ -194,4 +203,6 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
         }
     }
     #endregion
+
+
 }
