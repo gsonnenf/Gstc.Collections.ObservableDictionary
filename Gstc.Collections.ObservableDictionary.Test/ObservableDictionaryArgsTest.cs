@@ -10,15 +10,12 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest {
         internal void ArgTest() {
             ObservableDictionary<TestKey, TestValue> obvDict = new();
 
-
             TestKey key = new TestKey();
             TestValue value = new TestValue();
 
             obvDict.AddedKvp += (_, _) => Console.WriteLine("test");
 
             obvDict.Add(key, value);
-
-
         }
     }
 }
