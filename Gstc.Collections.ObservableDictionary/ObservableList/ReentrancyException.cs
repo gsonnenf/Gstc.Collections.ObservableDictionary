@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Gstc.Collections.ObservableDictionary {
-    public class ReentrancyException : InvalidOperationException {
+namespace Gstc.Collections.ObservableDictionary.ObservableList
+{
+    public class ReentrancyException : InvalidOperationException
+    {
         public ReentrancyException() { }
 
         public ReentrancyException(string message) : base(message) { }

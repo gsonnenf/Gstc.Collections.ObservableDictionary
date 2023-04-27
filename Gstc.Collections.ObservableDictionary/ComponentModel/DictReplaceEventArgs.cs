@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Gstc.Collections.ObservableDictionary.ComponentModel {
-    public class DictReplaceEventArgs<TKey, TValue> : INotifyDictionaryChangedEventArgs<TKey, TValue> {
+    public class DictReplaceEventArgs<TKey, TValue> : IDictionaryChangedEventArgs<TKey, TValue> {
 
         #region Properties
         public NotifyDictionaryChangedAction Action => NotifyDictionaryChangedAction.Replace;

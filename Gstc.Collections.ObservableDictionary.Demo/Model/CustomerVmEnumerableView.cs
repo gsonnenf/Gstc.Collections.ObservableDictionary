@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Gstc.Collections.ObservableDictionary.ObservableList;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace Gstc.Collections.ObservableDictionary.Demo.Model;
@@ -8,7 +9,11 @@ public class CustomerVmEnumerableView : NotifyPropertyChanged, ICustomerVm {
 
     private ObservableDictionary<string, Customer> _obvDictCustomer = new();
     public IObservableDictionary<string, Customer> ObvDictionaryCustomers => _obvDictCustomer;
-    public IEnumerable<KeyValuePair<string, Customer>> EnumerableKvpCustomers => _obvDictCustomer.ObservableEnumerableKvp;
+    public IObservableEnumerable<KeyValuePair<string, Customer>> EnumerableKvpCustomers
+        => _obvDictCustomer.ObservableEnumerableKvp;
+
+    public IObservableEnumerable<string> EnumerableKeyCustomers
+        => _obvDictCustomer.ObservableEnumerableKey;
     public INotifyCollectionChanged NotifyCustomers => _obvDictCustomer.ObservableEnumerableKvp;
 
 

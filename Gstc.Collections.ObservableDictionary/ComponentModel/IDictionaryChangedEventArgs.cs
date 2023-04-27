@@ -1,5 +1,5 @@
 ﻿namespace Gstc.Collections.ObservableDictionary.ComponentModel {
-    public interface INotifyDictionaryChangedEventArgs<TKey, TValue> {
+    public interface IDictionaryChangedEventArgs<TKey, TValue> {
         /// <summary>
         /// The action that caused the event.
         /// </summary>

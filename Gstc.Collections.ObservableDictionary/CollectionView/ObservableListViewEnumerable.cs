@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Gstc.Collections.ObservableDictionary.ObservableList;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace Gstc.Collections.ObservableDictionary.CollectionView;
-public class ObservableListViewEnumerable<TKey, TValue, TOutput> : IObservableListView<TOutput>, IDisposable {
+public class ObservableListViewEnumerable<TKey, TValue, TOutput> : IObservableListEnumerable<TOutput>, IDisposable {
 
     public event NotifyCollectionChangedEventHandler Adding;
     public event NotifyCollectionChangedEventHandler Moving;

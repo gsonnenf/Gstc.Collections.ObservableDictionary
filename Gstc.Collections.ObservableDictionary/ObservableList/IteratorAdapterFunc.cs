@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Gstc.Collections.ObservableDictionary.Binding {
+namespace Gstc.Collections.ObservableDictionary.ObservableList {
     /// <summary>
     ///  Consider moving to snippets collection.
     /// This functionality is likely provided in Linq by the Select.

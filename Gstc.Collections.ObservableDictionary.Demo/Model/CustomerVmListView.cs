@@ -1,4 +1,5 @@
 ﻿using Gstc.Collections.ObservableDictionary.CollectionView;
+using Gstc.Collections.ObservableDictionary.ObservableList;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
@@ -10,7 +11,8 @@ public class CustomerVmListView : NotifyPropertyChanged, ICustomerVm {
     private string? _selectedCustomerKey;
     public IObservableDictionary<string, Customer> ObvDictionaryCustomers => _obvDictCustomer;
     public ObservableListViewKvp<string, Customer> ObvListViewCustomer => _obvDictCustomer.ObservableListViewKvp;
-    public IEnumerable<KeyValuePair<string, Customer>> EnumerableKvpCustomers => _obvDictCustomer.ObservableListViewKvp;
+    public IObservableEnumerable<KeyValuePair<string, Customer>> EnumerableKvpCustomers => _obvDictCustomer.ObservableListViewKvp;
+    public IObservableEnumerable<string> EnumerableKeyCustomers => throw new System.NotImplementedException();
     public INotifyCollectionChanged NotifyCustomers => _obvDictCustomer.ObservableListViewKey;
 
     public string? SelectedCustomerKey {
@@ -32,6 +34,8 @@ public class CustomerVmListView : NotifyPropertyChanged, ICustomerVm {
     public SimpleActionCommand ReplaceItemCommand { get; private set; }
     public SimpleActionCommand ReplaceItemsCommand { get; private set; }
     public SimpleActionCommand ReplaceDictCommand { get; private set; }
+
+
     #endregion
 
     #region Constructor

@@ -16,6 +16,8 @@ namespace Gstc.Collections.ObservableDictionary.UnitTest {
             obvDict.AddedKvp += (_, _) => Console.WriteLine("test");
 
             obvDict.Add(key, value);
+
+
         }
     }
 }

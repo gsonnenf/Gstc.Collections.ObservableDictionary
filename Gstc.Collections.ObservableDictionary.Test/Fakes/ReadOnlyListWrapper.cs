@@ -3,6 +3,8 @@ using System.Collections;
 using System.Diagnostics;
 
 namespace Gstc.Collections.ObservableDictionary.Test.Fakes {
+
+    //todo: probably delete, this was a test against the NotifyCollectionChanged list args.
     internal abstract class ReadOnlyListWrapper<TInput, TOutput> : IList {
         private readonly IList _list;
         protected abstract TOutput Convert(TInput input);

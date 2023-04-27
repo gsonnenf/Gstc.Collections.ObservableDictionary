@@ -1,6 +1,6 @@
-﻿
-using Gstc.Collections.ObservableDictionary.Binding;
-using Gstc.Collections.ObservableDictionary.CollectionView;
+﻿using Gstc.Collections.ObservableDictionary.CollectionView;
+using Gstc.Collections.ObservableDictionary.DictionaryEnumerable;
+using Gstc.Collections.ObservableDictionary.ObservableList;
 using Gstc.Collections.ObservableDictionary.Test.Fakes;
 using Gstc.Collections.ObservableDictionary.Test.Tools;
 using NUnit.Framework;
@@ -310,7 +310,7 @@ internal class BenchmarkTest {
 
         //Test 3
         counter = 0;
-        var enumerator = new ObservableEnumerableValue<string, TestClass>(dict);
+        var enumerator = new ObservableEnumerableDictionaryValue<string, TestClass>(dict);
         using (ScopedStopwatch.Start("Test: ObservableEnumerableValue"))
             for (int i = 0; i < iterations; i++)
                 foreach (var item in enumerator) counter += item.Num;

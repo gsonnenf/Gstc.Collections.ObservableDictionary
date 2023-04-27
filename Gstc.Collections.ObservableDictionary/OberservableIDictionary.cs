@@ -1,6 +1,8 @@
 ﻿using Gstc.Collections.ObservableDictionary.Abstract;
 using Gstc.Collections.ObservableDictionary.CollectionView;
 using Gstc.Collections.ObservableDictionary.ComponentModel;
+using Gstc.Collections.ObservableDictionary.DictionaryEnumerable;
+using Gstc.Collections.ObservableDictionary.ObservableList;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +18,7 @@ namespace Gstc.Collections.ObservableDictionary {
     /// <typeparam name="TKey">Key field of Dictionary</typeparam>
     /// <typeparam name="TValue">Value field of Dictionary</typeparam>
     /// <typeparam name="TDictionary"></typeparam>
-    /// <typeparam name="TNotify"></typeparam>
+
     public class ObservableIDictionary<TKey, TValue, TDictionary> :
         AbstractDictionaryUpcast<TKey, TValue>,
         IObservableDictionary<TKey, TValue>
@@ -167,14 +169,22 @@ namespace Gstc.Collections.ObservableDictionary {
         #endregion
 
         #region Enumerable Views
-        public ObservableEnumerableKvp<TKey, TValue> ObservableEnumerableKvp => _observableEnumerableKvp ??= new ObservableEnumerableKvp<TKey, TValue>(this);
-        private ObservableEnumerableKvp<TKey, TValue> _observableEnumerableKvp;
+        public ObservableEnumerableDictionaryKvp<TKey, TValue> ObservableEnumerableKvp =>
+            _observableEnumerableKvp ??= new ObservableEnumerableDictionaryKvp<TKey, TValue>(this);
+        private ObservableEnumerableDictionaryKvp<TKey, TValue> _observableEnumerableKvp;
 
-        public ObservableEnumerableValue<TKey, TValue> ObservableEnumerableValue => _observableEnumerableValue ??= new ObservableEnumerableValue<TKey, TValue>(this);
-        private ObservableEnumerableValue<TKey, TValue> _observableEnumerableValue;
+        public ObservableEnumerableDictionaryValue<TKey, TValue> ObservableEnumerableValue => _observableEnumerableValue ??= new ObservableEnumerableDictionaryValue<TKey, TValue>(this);
+        private ObservableEnumerableDictionaryValue<TKey, TValue> _observableEnumerableValue;
 
-        public ObservableEnumerableKey<TKey, TValue> ObservableEnumerableKey => _observableEnumerableKey ??= new ObservableEnumerableKey<TKey, TValue>(this);
-        private ObservableEnumerableKey<TKey, TValue> _observableEnumerableKey;
+        public ObservableEnumerableDictionaryKey<TKey, TValue> ObservableEnumerableKey
+            => _observableEnumerableKey ??= new ObservableEnumerableDictionaryKey<TKey, TValue>(this);
+        private ObservableEnumerableDictionaryKey<TKey, TValue> _observableEnumerableKey;
+        #endregion
+
+        #region Observable view
+
+
+
         #endregion
 
         #region List View

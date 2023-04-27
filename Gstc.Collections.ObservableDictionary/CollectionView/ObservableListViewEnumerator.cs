@@ -5,13 +5,13 @@ using System.Collections.Generic;
 namespace Gstc.Collections.ObservableDictionary.CollectionView;
 internal class ObservableListViewEnumerator<TKey, TValue, TOutput> : IEnumerator<TOutput> {
 
-    private AbstractObservableListView<TKey, TValue, TOutput> _listView;
+    private ObservableListViewAbstract<TKey, TValue, TOutput> _listView;
     private readonly int _initialVersion;
 
     private int _index;
     private TOutput? _current;
 
-    internal ObservableListViewEnumerator(AbstractObservableListView<TKey, TValue, TOutput> listView) {
+    internal ObservableListViewEnumerator(ObservableListViewAbstract<TKey, TValue, TOutput> listView) {
         _index = 0;
         _listView = listView;
         _initialVersion = _listView._version;

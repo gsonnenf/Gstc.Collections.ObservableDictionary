@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace Gstc.Collections.ObservableDictionary.Binding {
+namespace Gstc.Collections.ObservableDictionary.ObservableList {
     /// <summary>
     /// Consider moving to snippets collection.
     /// Allows an enumerator to be enumerated as a transformed type. 

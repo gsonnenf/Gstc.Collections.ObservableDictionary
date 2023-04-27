@@ -1,4 +1,5 @@
 ﻿using Gstc.Collections.ObservableDictionary.ComponentModel;
+using Gstc.Collections.ObservableDictionary.ObservableList;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Gstc.Collections.ObservableDictionary.CollectionView;
 /// </summary>
 /// <typeparam name="TKey"></typeparam>
 /// <typeparam name="TValue"></typeparam>
-public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObservableListView<TOutput>, IDisposable {
+public abstract class ObservableListViewAbstract<TKey, TValue, TOutput> : IObservableListEnumerable<TOutput>, IDisposable {
 
     #region Events
     public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -38,7 +39,7 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
     public int Count => _orderedCollection.Count;
 
     #region Constructor
-    public AbstractObservableListView(IObservableDictionary<TKey, TValue> obvDict) {
+    public ObservableListViewAbstract(IObservableDictionary<TKey, TValue> obvDict) {
         _obvDict = obvDict;
         RebuildIndices();
         _obvDict.AddedKvp += OnAddedValue;
@@ -48,8 +49,7 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
         //todo: setup Changing events as well
     }
 
-    ~AbstractObservableListView() => Dispose();
-
+    ~ObservableListViewAbstract() => Dispose();
 
     public void Dispose() {
         _obvDict.AddedKvp -= OnAddedValue;
@@ -101,7 +101,7 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
     /// <param name="Value"></param>
     /// <param name="index"></param>
     public void Insert(TKey key, TValue Value, int index) {
-        if (_insertIndex != -1) throw new ReentrancyException(nameof(AbstractObservableListView<TKey, TValue, TOutput>) + ": Insert method is not allowed to be used with async or reentrancy.");
+        if (_insertIndex != -1) throw new ReentrancyException(nameof(ObservableListViewAbstract<TKey, TValue, TOutput>) + ": Insert method is not allowed to be used with async or reentrancy.");
         _insertIndex = index;
         _obvDict.Add(key, Value);
         _insertIndex = -1;
@@ -114,7 +114,7 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
     /// </summary>
     /// <param name="key"></param>
     /// <param name="newItem"></param>
-    private void OnAddedValue(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> args) {
+    private void OnAddedValue(object sender, IDictionaryChangedEventArgs<TKey, TValue> args) {
         var key = args.Key;
         var newItem = args.NewValue;
         _version++;
@@ -139,7 +139,7 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
     /// </summary>
     /// <param name="key"></param>
     /// <param name="oldItem"></param>
-    private void OnRemovedValue(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> args) {
+    private void OnRemovedValue(object sender, IDictionaryChangedEventArgs<TKey, TValue> args) {
         _version++;
         var key = args.Key;
         var oldItem = args.OldValue;
@@ -159,7 +159,7 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
     /// <param name="newItem"></param>
     /// <param name="oldItem"></param>
     /// 
-    void OnReplacedValue(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> args) {
+    void OnReplacedValue(object sender, IDictionaryChangedEventArgs<TKey, TValue> args) {
         _version++;
         var key = args.Key;
         var newItem = args.NewValue;
@@ -174,7 +174,7 @@ public abstract class AbstractObservableListView<TKey, TValue, TOutput> : IObser
     /// <summary>
     /// O(n)
     /// </summary>
-    void OnResetValue(object sender, INotifyDictionaryChangedEventArgs<TKey, TValue> args) {
+    void OnResetValue(object sender, IDictionaryChangedEventArgs<TKey, TValue> args) {
         _version++;
         RebuildIndices();
         var eventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);

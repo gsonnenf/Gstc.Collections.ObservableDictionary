@@ -1,5 +1,4 @@
-﻿using Gstc.Collections.ObservableDictionary.CollectionView;
-using Gstc.Collections.ObservableLists;
+﻿using Gstc.Collections.ObservableLists;
 using Gstc.Collections.ObservableLists.ComponentModel;
 using System;
 using System.Collections;
@@ -7,13 +6,13 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
 
-namespace Gstc.Collections.ObservableDictionary.Binding {
+namespace Gstc.Collections.ObservableDictionary.ObservableList {
     /// <summary>
     /// Creates a projection of ...
     /// </summary>
     /// <typeparam name="TInput"></typeparam>
     /// <typeparam name="TOutput"></typeparam>
-    public abstract class ObvEnumerableView<TInput, TOutput> :
+    public abstract class ObservableListEnumerable<TInput, TOutput> :
     IObservableEnumerable<TOutput>,
     INotifyCollectionChanging,
     INotifyCollectionChanged,
@@ -41,7 +40,7 @@ namespace Gstc.Collections.ObservableDictionary.Binding {
         #endregion
 
         #region Constructors
-        public ObvEnumerableView(IObservableList<TInput> obvList) {
+        public ObservableListEnumerable(IObservableList<TInput> obvList) {
             _obvList = obvList;
             Bind();
         }
@@ -72,7 +71,7 @@ namespace Gstc.Collections.ObservableDictionary.Binding {
             _obvList = default;
         }
 
-        ~ObvEnumerableView() => Dispose();
+        ~ObservableListEnumerable() => Dispose();
         #endregion
 
         #region Abstract Methods
@@ -152,25 +151,25 @@ namespace Gstc.Collections.ObservableDictionary.Binding {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private NotifyCollectionChangedEventArgs ConvertAddArgs(NotifyCollectionChangedEventArgs args) =>
-            (args.NewItems.Count == 1) ?
+            args.NewItems.Count == 1 ?
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, ConvertItem((TInput)args.NewItems), args.NewStartingIndex) :
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, ConvertItems(args.NewItems), args.NewStartingIndex);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private NotifyCollectionChangedEventArgs ConvertMoveArgs(NotifyCollectionChangedEventArgs args) =>
-            (args.NewItems.Count == 1) ?
+            args.NewItems.Count == 1 ?
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, ConvertItem((TInput)args.OldItems), args.NewStartingIndex, args.OldStartingIndex) :
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, ConvertItems(args.OldItems), args.NewStartingIndex, args.OldStartingIndex);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private NotifyCollectionChangedEventArgs ConvertRemoveArgs(NotifyCollectionChangedEventArgs args) =>
-            (args.NewItems.Count == 1) ?
+            args.NewItems.Count == 1 ?
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, ConvertItem((TInput)args.OldItems), args.OldStartingIndex) :
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, ConvertItems(args.OldItems), args.OldStartingIndex);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private NotifyCollectionChangedEventArgs ConvertReplaceArgs(NotifyCollectionChangedEventArgs args) =>
-           (args.NewItems.Count == 1) ?
+           args.NewItems.Count == 1 ?
                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, ConvertItem((TInput)args.NewItems), ConvertItem((TInput)args.OldItems), args.OldStartingIndex) :
                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, ConvertItems(args.NewItems), ConvertItems(args.OldItems), args.OldStartingIndex);
 
@@ -183,8 +182,8 @@ namespace Gstc.Collections.ObservableDictionary.Binding {
         #region Enumerator Class
         private class ObvEnumerableViewEnumerator : IEnumerator<TOutput> {
             private readonly IEnumerator<TInput> _inputEnumerator;
-            private readonly ObvEnumerableView<TInput, TOutput> _obvListView;
-            public ObvEnumerableViewEnumerator(ObvEnumerableView<TInput, TOutput> obvListView) {
+            private readonly ObservableListEnumerable<TInput, TOutput> _obvListView;
+            public ObvEnumerableViewEnumerator(ObservableListEnumerable<TInput, TOutput> obvListView) {
                 _obvListView = obvListView;
                 _inputEnumerator = obvListView._obvList.GetEnumerator();
             }

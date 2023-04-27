@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Gstc.Collections.ObservableDictionary.CollectionView;
+namespace Gstc.Collections.ObservableDictionary.ObservableList;
 //Todo: Figure out if this is good, and where it should go
 public class ObservablePropertyFilter<TInput, TOutput> : INotifyPropertyChanged {
     public event PropertyChangedEventHandler PropertyChanged;

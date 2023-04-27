@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gstc.Collections.ObservableDictionary.Abstract {
+namespace Gstc.Collections.ObservableDictionary.ObservableList {
     internal class SimpleMonitor : IDisposable {
         internal bool AllowReentrancy { get; set; }
         private int _blockReentrancyCount = 0;
