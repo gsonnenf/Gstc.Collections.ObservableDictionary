@@ -1,8 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Gstc.Collections.ObservableDictionary {
-    internal class ObservableKeyedCollection {
-    }
+﻿namespace Gstc.Collections.ObservableDictionary;
+public class ObservableKeyedCollection<TKey, TValue> {
 }

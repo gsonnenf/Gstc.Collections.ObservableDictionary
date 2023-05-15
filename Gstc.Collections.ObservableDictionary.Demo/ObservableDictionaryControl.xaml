@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Gstc.Collections.ObservableDictionary.Demo" 
              xmlns:pt="http://propertytools.org/wpf" 
              xmlns:components="clr-namespace:Gstc.Collections.ObservableDictionary.Demo.Components"
              mc:Ignorable="d" 
@@ -12,7 +11,11 @@
              x:Name="Self"
              >
     <DockPanel>
-        <TextBox DockPanel.Dock="Bottom" Height="100" Name="LogTextBox" IsReadOnly="True"/>
+        <TextBox DockPanel.Dock="Bottom" Height="100" Name="LogTextBox" IsReadOnly="True" TextWrapping="Wrap">
+            ObservableDictionary will provide an Observable Enumerable view that will provide WPF databinding, but it will n
+            it will not guarentee order between operations. All NotifyCollectionChanged events are called with reset, so
+            for large collections, this will be slow.
+        </TextBox>
         <components:DictionaryButtonControl DockPanel.Dock="Bottom" CustomerVm="{Binding CustomerVm, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>

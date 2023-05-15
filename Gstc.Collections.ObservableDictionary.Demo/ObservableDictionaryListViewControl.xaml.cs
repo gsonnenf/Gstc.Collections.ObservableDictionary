@@ -1,6 +1,5 @@
 ﻿using Gstc.Collections.ObservableDictionary.CollectionView;
 using Gstc.Collections.ObservableDictionary.Demo.Model;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -12,8 +11,9 @@ namespace Gstc.Collections.ObservableDictionary.Demo {
         public readonly static DependencyProperty DictionarySourceProperty
             = DependencyProperty.Register(nameof(CustomerVm), typeof(CustomerVmListView), typeof(ObservableDictionaryListViewControl));
 
-        private static readonly DependencyPropertyDescriptor DictionarySourceDpd
-            = DependencyPropertyDescriptor.FromProperty(DictionarySourceProperty, typeof(ObservableDictionaryListViewControl));
+        //private static readonly DependencyPropertyDescriptor DictionarySourceDpd
+        //    = DependencyPropertyDescriptor.FromProperty(DictionarySourceProperty, typeof(ObservableDictionaryListViewControl));
+
 
         public CustomerVmListView CustomerVm {
             get => (CustomerVmListView)GetValue(DictionarySourceProperty);

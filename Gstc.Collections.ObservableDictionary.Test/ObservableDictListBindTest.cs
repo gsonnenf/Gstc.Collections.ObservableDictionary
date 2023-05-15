@@ -8,7 +8,7 @@ namespace Gstc.Collections.ObservableDictionary.Test {
     public class ObservableDictListBindTest {
         [Test]
         public void Add_ExpectedSuccess() {
-            ObservableDictListBind<TestKey, TestValue> dictBind = new();
+            ObservableBindDictList<TestKey, TestValue> dictBind = new();
         }
     }
 }

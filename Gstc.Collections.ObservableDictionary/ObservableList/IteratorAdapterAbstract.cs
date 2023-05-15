@@ -9,11 +9,11 @@ namespace Gstc.Collections.ObservableDictionary.ObservableList {
     /// </summary>
     /// <typeparam name="TInput"></typeparam>
     /// <typeparam name="TOutput"></typeparam>
-    public abstract class AbstractIteratorAdapter<TInput, TOutput> : IEnumerator<TOutput>, IEnumerable<TOutput> {
+    public abstract class IteratorAdapterAbstract<TInput, TOutput> : IEnumerator<TOutput>, IEnumerable<TOutput> {
         private readonly IEnumerator<TInput> _inputEnumerator;
         protected abstract TOutput ConvertItem(TInput input);
-        public AbstractIteratorAdapter(IEnumerator<TInput> inputEnumerator) => _inputEnumerator = inputEnumerator;
-        public AbstractIteratorAdapter(IEnumerable<TInput> inputEnumerable) => _inputEnumerator = inputEnumerable.GetEnumerator();
+        public IteratorAdapterAbstract(IEnumerator<TInput> inputEnumerator) => _inputEnumerator = inputEnumerator;
+        public IteratorAdapterAbstract(IEnumerable<TInput> inputEnumerable) => _inputEnumerator = inputEnumerable.GetEnumerator();
         public TOutput Current => ConvertItem(_inputEnumerator.Current);
         object IEnumerator.Current => ConvertItem(_inputEnumerator.Current);
         public void Dispose() => _inputEnumerator.Dispose();

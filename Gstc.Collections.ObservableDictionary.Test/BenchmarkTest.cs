@@ -163,7 +163,7 @@ internal class BenchmarkTest {
         public TestClass2(int num) => Num = num;
     }
 
-    public class EnumeratorAdapterTestClass : AbstractIteratorAdapter<TestClass1, TestClass2> {
+    public class EnumeratorAdapterTestClass : EnumerableEnumeratorViewAbstract<TestClass1, TestClass2> {
         public EnumeratorAdapterTestClass(IEnumerator<TestClass1> inputEnumerator) : base(inputEnumerator) { }
 
         public EnumeratorAdapterTestClass(IEnumerable<TestClass1> inputEnumerator) : base(inputEnumerator) { }
@@ -171,7 +171,7 @@ internal class BenchmarkTest {
         protected override TestClass2 ConvertItem(TestClass1 input) => new TestClass2(input.Num);
     }
 
-    public class EnumeratorAdapterIntDouble : AbstractIteratorAdapter<int, double> {
+    public class EnumeratorAdapterIntDouble : EnumerableEnumeratorViewAbstract<int, double> {
         public EnumeratorAdapterIntDouble(IEnumerator<int> inputEnumerator) : base(inputEnumerator) { }
 
         public EnumeratorAdapterIntDouble(IEnumerable<int> inputEnumerator) : base(inputEnumerator) { }

@@ -17,23 +17,23 @@ public partial class ObservableDictionaryControl : UserControl {
             typeof(ObservableDictionaryControl)
             );
 
-    private static readonly DependencyPropertyDescriptor DictionarySourceDpd
-        = DependencyPropertyDescriptor.FromProperty(DictionarySourceProperty, typeof(ObservableDictionaryControl));
+    //private static readonly DependencyPropertyDescriptor DictionarySourceDpd
+    //    = DependencyPropertyDescriptor.FromProperty(DictionarySourceProperty, typeof(ObservableDictionaryControl));
+    //DictionarySourceDpd.AddValueChanged(this, (e, args) => BindEvents());
     #endregion
 
     public ICustomerVm CustomerVm {
         get => (ICustomerVm)GetValue(DictionarySourceProperty);
         set {
-            UnbindEvents();
-            SetValue(DictionarySourceProperty, value); //TOdo: add back in bind.
-            BindEvents();
+            if (CustomerVm != null) UnbindEvents();
+            SetValue(DictionarySourceProperty, value);
+            if (CustomerVm != null) BindEvents();
         }
     }
 
     public ObservableDictionaryControl() {
         InitializeComponent();
-        DictionarySourceDpd.AddValueChanged(this, BindEvents);
-        var customerVm = new CustomerVmEnumerableView();
+        var customerVm = new CustomerVmEnumerableDictionary();
         CustomerVm = customerVm;
         ListViewKeys.SelectedIndex = 0;
         var a = customerVm.EnumerableKeyCustomers;
@@ -58,7 +58,6 @@ public partial class ObservableDictionaryControl : UserControl {
     }
 
     #region List View Special behavior;
-
 
     void AddKvpCallback(object sender, DictAddEventArgs<string, Customer> args) => ListViewKeys.SelectedItem = args.NewValue.TransactionId;
     void RemovedKvpCallback(object sender, DictRemoveEventArgs<string, Customer> args) => ListViewKeys.SelectedIndex = 0;
@@ -86,8 +85,9 @@ public partial class ObservableDictionaryControl : UserControl {
                 throw new InvalidEnumArgumentException();
         }
     }
-#endregion
+    #endregion
     private void KeyListView_SelectionChanged(object sender, SelectionChangedEventArgs e) => CustomerVm.SelectedCustomerKey = (string)ListViewKeys.SelectedItem;
 
     private void Log(string message) => LogTextBox.Text = "[" + DateTime.Now.ToString("mm:ss") + "]" + message + "\n" + LogTextBox.Text;
+
 }

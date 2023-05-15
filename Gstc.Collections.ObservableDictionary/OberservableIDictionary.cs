@@ -1,8 +1,8 @@
 ﻿using Gstc.Collections.ObservableDictionary.Abstract;
-using Gstc.Collections.ObservableDictionary.CollectionView;
+using Gstc.Collections.ObservableDictionary.Binding;
 using Gstc.Collections.ObservableDictionary.ComponentModel;
 using Gstc.Collections.ObservableDictionary.DictionaryEnumerable;
-using Gstc.Collections.ObservableDictionary.ObservableList;
+using Gstc.Collections.ObservableLists.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -73,7 +73,6 @@ namespace Gstc.Collections.ObservableDictionary {
         #endregion
 
         #region Methods
-
         public override TValue this[TKey key] {
             get => _dictionary[key];
             set {
@@ -168,34 +167,35 @@ namespace Gstc.Collections.ObservableDictionary {
         }
         #endregion
 
-        #region Enumerable Views
-        public ObservableEnumerableDictionaryKvp<TKey, TValue> ObservableEnumerableKvp =>
-            _observableEnumerableKvp ??= new ObservableEnumerableDictionaryKvp<TKey, TValue>(this);
+        #region Views
         private ObservableEnumerableDictionaryKvp<TKey, TValue> _observableEnumerableKvp;
-
-        public ObservableEnumerableDictionaryValue<TKey, TValue> ObservableEnumerableValue => _observableEnumerableValue ??= new ObservableEnumerableDictionaryValue<TKey, TValue>(this);
-        private ObservableEnumerableDictionaryValue<TKey, TValue> _observableEnumerableValue;
-
-        public ObservableEnumerableDictionaryKey<TKey, TValue> ObservableEnumerableKey
-            => _observableEnumerableKey ??= new ObservableEnumerableDictionaryKey<TKey, TValue>(this);
         private ObservableEnumerableDictionaryKey<TKey, TValue> _observableEnumerableKey;
-        #endregion
+        private ObservableEnumerableDictionaryValue<TKey, TValue> _observableEnumerableValue;
+        private ObservableListDictSync<TKey, TValue> _observableListKvpOrdered;
 
-        #region Observable view
+        /// <summary>
+        /// <inheritdoc cref="ObservableEnumerableDictionaryKvp{TKey, TValue}"/>
+        /// </summary>
+        public ObservableEnumerableDictionaryKvp<TKey, TValue> ObservableEnumerableKvpUnordered =>
+            _observableEnumerableKvp ??= new ObservableEnumerableDictionaryKvp<TKey, TValue>(this);
 
+        /// <summary>
+        /// <inheritdoc cref="ObservableEnumerableDictionaryKey{TKey, TValue}"/>
+        /// </summary>
+        public ObservableEnumerableDictionaryKey<TKey, TValue> ObservableEnumerableKeyUnordered =>
+            _observableEnumerableKey ??= new ObservableEnumerableDictionaryKey<TKey, TValue>(this);
 
+        /// <summary>
+        /// <inheritdoc cref="ObservableEnumerableDictionaryValue{TKey, TValue}"/>
+        /// </summary>
+        public ObservableEnumerableDictionaryValue<TKey, TValue> ObservableEnumerableValueUnordered =>
+            _observableEnumerableValue ??= new ObservableEnumerableDictionaryValue<TKey, TValue>(this);
 
-        #endregion
-
-        #region List View
-        public ObservableListViewKey<TKey, TValue> ObservableListViewKey => _observableListViewKey ??= new ObservableListViewKey<TKey, TValue>(this);
-        private ObservableListViewKey<TKey, TValue> _observableListViewKey;
-
-        public ObservableListViewValue<TKey, TValue> ObservableListViewValue => _observableListViewValue ??= new ObservableListViewValue<TKey, TValue>(this);
-        private ObservableListViewValue<TKey, TValue> _observableListViewValue;
-
-        public ObservableListViewKvp<TKey, TValue> ObservableListViewKvp => _observableListViewKvp ??= new ObservableListViewKvp<TKey, TValue>(this);
-        private ObservableListViewKvp<TKey, TValue> _observableListViewKvp;
+        /// <summary>
+        /// <inheritdoc cref="ObservableListDictSync{TKey, TValue}"/>
+        /// </summary>
+        public ObservableListDictSync<TKey, TValue> ObservableListKvpOrdered =>
+            _observableListKvpOrdered ??= new ObservableListDictSync<TKey, TValue>(this);
         #endregion
 
         #region Property Notify Methods
@@ -221,8 +221,8 @@ namespace Gstc.Collections.ObservableDictionary {
         /// Allows onChange events reentrancy when set to true. Be careful when allowing reentrancy, as it can cause stack overflow
         /// from infinite calls due to conflicting callbacks.
         /// </summary>
-        private SimpleMonitor ReentrancyMonitor => _monitor ??= new SimpleMonitor();
-        private SimpleMonitor _monitor;
+        private ReentrancyMonitorSimple ReentrancyMonitor => _monitor ??= new ReentrancyMonitorSimple();
+        private ReentrancyMonitorSimple _monitor;
 
 
         public bool AllowReentrancy {
@@ -231,9 +231,7 @@ namespace Gstc.Collections.ObservableDictionary {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private SimpleMonitor BlockReentrancy() => ReentrancyMonitor.BlockReentrancy();
-
-
+        private ReentrancyMonitorSimple BlockReentrancy() => ReentrancyMonitor.BlockReentrancy();
 
         #endregion
     }

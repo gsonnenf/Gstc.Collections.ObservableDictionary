@@ -3,9 +3,10 @@
 namespace Gstc.Collections.ObservableDictionary.DictionaryEnumerable;
 
 /// <summary>
+/// A <see cref="ObservableEnumerableDictionaryAbstract{TKey, TValue, TOuput}"></see> where the enumerable is of 
+/// type KeyValuePair{TKey,TValue}.
+/// <br/><br/> 
 /// <inheritdoc cref="ObservableEnumerableDictionaryAbstract{TKey, TValue, TOuput}"/>
-/// <br/><br/>
-/// he enumerable is of type KeyValuePair{TKey,TValue}.
 /// </summary>
 /// <typeparam name="TKey">The TKey of the dictionary and TKey of enumerable KeyValuePair{TKey,TValue}.</typeparam>
 /// <typeparam name="TValue">The TValue of the dictionary and TValue of enumerable KeyValuePair{TKey,TValue}.</typeparam>

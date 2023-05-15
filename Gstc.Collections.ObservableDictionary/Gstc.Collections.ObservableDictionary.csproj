@@ -21,4 +21,9 @@
     <ProjectReference Include="..\..\Gstc.Collections.ObservableLists\Gstc.Collections.ObservableLists\Gstc.Collections.ObservableLists.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DictionaryList\" />
+    <Folder Include="Collection\" />
+  </ItemGroup>
+
 </Project>
